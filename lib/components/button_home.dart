@@ -24,20 +24,22 @@ class ButtonHomeItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FlatButton(
-            onPressed: onPressed,
-            child: Image.asset(
-              path,
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              alignment: Alignment.center,
               width: size,
               height: size,
+              decoration: ShapeDecoration(
+                shape: CircleBorder(),
+                color: color,
+              ),
+              child: Image.asset(
+                path,
+                width: size / 2,
+                height: size / 2,
+              ),
             ),
-            // child: new Icon(
-            //   Icons.arrow_forward,
-            //   color: Colors.white,
-            //   size: 20.0,
-            // ),
-            shape: new CircleBorder(),
-            color: color,
           ),
           SizedBox(height: 10),
           Text(

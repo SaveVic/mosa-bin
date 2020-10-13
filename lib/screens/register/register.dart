@@ -156,6 +156,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 onSuffixTap: () {
                   _onShowDatePicker(context);
                 },
+                suffixContainerColor: Color(0xFFA9A9A9),
+                suffixColor: Colors.white,
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),

@@ -11,9 +11,8 @@ class FilterHelper {
     );
     for (String q in splitQuery) {
       for (int i = 0; i < source.length; i++) {
-        if (source[i]['nameLower'].toString().contains(q))
-          confidence[i]['val']++;
-        if (source[i]['tags'].toString().contains(q)) confidence[i]['val']++;
+        if (source[i]['lower'].contains(q)) confidence[i]['val']++;
+        if (source[i]['tags'].contains(q)) confidence[i]['val']++;
       }
     }
     confidence.removeWhere((e) => e['val'] == 0);

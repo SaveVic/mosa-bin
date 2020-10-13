@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mosa_bin/components/button_home.dart';
+import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/menu_home/news_item_home.dart';
 import 'package:mosa_bin/screens/home/style_home.dart';
 
-import 'item_home.dart';
+import 'data_home.dart';
 
 class MenuHome extends StatelessWidget {
-  final List<ItemHome> itemsMenu = [
-    ItemHome('assets/images/icon_home/truck.png', 'Jemput Sampah'),
-    ItemHome('assets/images/icon_home/trash.png', 'Mosa Smart Bin'),
-    ItemHome('assets/images/icon_home/article.png', 'Artikel'),
-    ItemHome('assets/images/icon_home/cart.png', 'Toko Produk Organik'),
-  ];
-
-  final List<ItemHome> itemsNews = [
-    ItemHome('assets/images/news_img/news1.png',
-        'Kali citarum, sungai tekotor\ndi dunia'),
-    ItemHome(
-        'assets/images/news_img/news2.png', 'Kangpisman Bandung\najak warga'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -59,9 +46,9 @@ class MenuHome extends StatelessWidget {
             itemCount: itemsNews.length,
             itemBuilder: (ctx, i) {
               return ItemNewsHome(
-                path: itemsNews[i].path,
+                path: itemsNews[i]['path'] ?? '',
                 height: height * 0.16,
-                title: itemsNews[i].desc,
+                title: itemsNews[i]['title'] ?? '',
                 titleColor: Color(0xFF595454),
               );
             },
@@ -81,8 +68,8 @@ class MenuHome extends StatelessWidget {
       children: List<Widget>.generate(
         itemsMenu.length,
         (i) => ButtonHomeItem(
-          path: itemsMenu[i].path,
-          descText: itemsMenu[i].desc,
+          path: itemsMenu[i]['path'] ?? '',
+          descText: itemsMenu[i]['label'] ?? '',
           descColor: Color(0xFF595454),
           color: StyleHome.baseColor,
           size: 30,
@@ -108,35 +95,15 @@ class MenuHome extends StatelessWidget {
             width: width * StyleHome.widthFactor,
           ),
           SizedBox(height: 30),
-          Container(
+          CustomTextField(
             width: double.infinity,
-            alignment: Alignment.center,
-            child: Container(
-              width: width * 0.8,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Color(0xFFF2F2F0),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Cari Bank Sampah Organik',
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Color(0xFFA9A9A9),
-                    ),
-                  ),
-                  Icon(
-                    Icons.search,
-                    size: 21,
-                    color: Colors.black,
-                  )
-                ],
-              ),
-            ),
+            controller: null,
+            placeholder: 'Cari Bank Sampah Organik',
+            suffixIcon: Icons.search,
+            onSuffixTap: () {},
+            radius: 10,
+            shadow: false,
+            fieldColor: Color(0xFFF2F2F0),
           ),
         ],
       ),
