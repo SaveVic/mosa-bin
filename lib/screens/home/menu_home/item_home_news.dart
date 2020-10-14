@@ -1,39 +1,47 @@
 import 'package:flutter/material.dart';
 
-class ItemNewsHome extends StatelessWidget {
+class ItemHomeNews extends StatelessWidget {
   final String path;
   final double height;
   final double width;
+  final double padding;
   final String title;
   final Color titleColor;
 
-  const ItemNewsHome(
+  const ItemHomeNews(
       {Key key,
-      this.path,
-      this.height,
-      this.title,
-      this.width,
-      this.titleColor})
+      @required this.path,
+      this.height = 100,
+      this.title = '',
+      this.width = 200,
+      this.titleColor = Colors.black,
+      this.padding = 15})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              path,
+            child: Container(
               height: height,
               width: width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(path),
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
           ),
           SizedBox(height: 10),
           Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
               color: titleColor,

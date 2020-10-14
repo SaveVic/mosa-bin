@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
+import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/login/style_login.dart';
 import 'package:mosa_bin/screens/register/register.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,13 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _errorUser = false;
   bool _errorPass = false;
 
-  // @override
-  // void dispose() {
-  //   _controllerUser.dispose();
-  //   _controllerPass.dispose();
-  //   super.dispose();
-  // }
-
   bool _validate() {
     if (_controllerUser.text.isNotEmpty && _controllerPass.text.isNotEmpty)
       return true;
@@ -34,10 +28,17 @@ class _LoginPageState extends State<LoginPage> {
   void _onLogin(BuildContext context) {
     if (_validate()) {
       //login
+      Navigator.pushReplacement(
+        context,
+        PageTransition(
+          type: PageTransitionType.fade,
+          child: HomePage(),
+        ),
+      );
     } else {
       setState(() {
-        _errorUser = _controllerUser.text.isNotEmpty;
-        _errorPass = _controllerPass.text.isNotEmpty;
+        _errorUser = _controllerUser.text.isEmpty;
+        _errorPass = _controllerPass.text.isEmpty;
       });
     }
   }

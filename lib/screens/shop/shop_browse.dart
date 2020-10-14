@@ -3,7 +3,9 @@ import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/shop/item_category.dart';
 import 'package:mosa_bin/screens/shop/item_product.dart';
+import 'package:mosa_bin/screens/shop/shop_product_detail.dart';
 import 'package:mosa_bin/services/filter_helper.dart';
+import 'package:page_transition/page_transition.dart';
 import 'data_shop.dart';
 
 class ShopBrowsePage extends StatefulWidget {
@@ -17,6 +19,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
   bool _isLoad = false;
 
   Future _onSearch() async {
+    _hideKey();
     if (_controllerQuery.text.isEmpty) {
       setState(() {
         _isLoad = false;
@@ -25,8 +28,8 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
       setState(() {
         _isLoad = true;
       });
-      List<Map> result =
-          await FilterHelper.applyFilter(products, _controllerQuery.text);
+      List<Map> result = await FilterHelper.applyFilter(
+          products, category, _controllerQuery.text);
       setState(() {
         _displayList = result;
         _isLoad = false;
@@ -38,9 +41,18 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
     return ListView.builder(
       itemCount: category.length,
       itemBuilder: (ctx, id) {
-        return ItemCategory(
-          path: category[id]['p'],
-          label: category[id]['c'],
+        return GestureDetector(
+          onTap: () {
+            final _newValue = category[id]['c'];
+            _controllerQuery.value = TextEditingValue(
+              text: _newValue,
+            );
+            _onSearch();
+          },
+          child: ItemCategory(
+            path: category[id]['p'],
+            label: category[id]['c'],
+          ),
         );
       },
     );
@@ -60,7 +72,20 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
         childAspectRatio: 0.7,
         children: List<Widget>.generate(
           _displayList.length,
-          (i) => ItemProduct(prod: _displayList[i]),
+          (i) => GestureDetector(
+            onTap: () async {
+              int res = await Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: ProductDetailPage(prod: _displayList[i]),
+                    ),
+                  ) ??
+                  -1;
+              if (res >= 0) Navigator.pop(context, res);
+            },
+            child: ItemProduct(prod: _displayList[i]),
+          ),
         ),
       );
     }
@@ -81,50 +106,66 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
       return _buildProducts();
   }
 
+  void _hideKey() {
+    FocusScopeNode focus = FocusScope.of(context);
+    if (focus.hasPrimaryFocus) focus.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Color(0xFF6A9923),
-        leading: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
-        title: Text(
-          'Toko Produk Organik',
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onTap: _hideKey,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Color(0xFF6A9923),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
+          title: Text(
+            'Toko Produk Organik',
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
-      ),
-      backgroundColor: Color(0xFFF2F2F0),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Column(
-          children: [
-            CustomTextField(
-              width: double.infinity,
-              controller: _controllerQuery,
-              placeholder: 'Cari Produk atau Toko Organik',
-              suffixIcon: Icons.search,
-              onSuffixTap: () {
-                _onSearch();
-              },
-              radius: 10,
-              shadow: false,
-            ),
-            SizedBox(height: 10),
-            _buildBody(),
-          ],
+        backgroundColor: Color(0xFFF2F2F0),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: Column(
+            children: [
+              CustomTextField(
+                width: double.infinity,
+                controller: _controllerQuery,
+                placeholder: 'Cari Produk atau Toko Organik',
+                suffixIcon: Icons.search,
+                onSuffixTap: () {
+                  _onSearch();
+                },
+                radius: 10,
+                shadow: false,
+              ),
+              SizedBox(height: 10),
+              _buildBody(),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: MainBottomNavBar(
-        pos: 0,
-        onSelected: (id) {},
+        bottomNavigationBar: MainBottomNavBar(
+          pos: 0,
+          onSelected: (id) {
+            Navigator.pop(context, id);
+          },
+        ),
       ),
     );
   }

@@ -5,7 +5,7 @@ class StyleLogin {
   static const logoWidthFactor = 0.6;
   static const logoHeightFactor = 0.14;
 
-  static const logoMargin = 75.0;
+  static const logoMargin = 100.0;
   static const descMargin = 23.0;
 
   static const imageWidthFactor = 0.86;

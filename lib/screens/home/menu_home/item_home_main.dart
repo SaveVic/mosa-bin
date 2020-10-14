@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ButtonHomeItem extends StatelessWidget {
+class ItemHomeMain extends StatelessWidget {
   final String path;
   final double size;
   final Color color;
@@ -8,13 +8,13 @@ class ButtonHomeItem extends StatelessWidget {
   final Color descColor;
   final Function onPressed;
 
-  const ButtonHomeItem(
+  const ItemHomeMain(
       {Key key,
-      this.path,
-      this.size,
-      this.color,
-      this.descText,
-      this.descColor,
+      @required this.path,
+      this.size = 50,
+      this.color = Colors.blue,
+      this.descText = '',
+      this.descColor = Colors.black,
       this.onPressed})
       : super(key: key);
 
@@ -23,6 +23,7 @@ class ButtonHomeItem extends StatelessWidget {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: onPressed,

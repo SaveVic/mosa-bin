@@ -22,21 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkToken();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   _checkToken() async {
-    await Future.delayed(Duration(milliseconds: 3000));
+    await Future.delayed(Duration(milliseconds: 1000));
     User data = await helper.getData();
-    // Widget target;
-    // if (data.auth_token == null && !data.done_intro)
-    //   target = IntroPage();
-    // else if (data.done_intro)
-    //   target = PreLoginPage();
-    // else
-    //   target = LoginPage();
 
     Navigator.pushReplacement(
       context,

@@ -31,6 +31,8 @@ class MainBottomNavBar extends StatelessWidget {
         onSelected(id);
       },
       backgroundColor: StyleHome.baseColor,
+      selectedLabelStyle: TextStyle(color: Colors.red),
+      unselectedLabelStyle: TextStyle(color: Colors.red),
       items: List<BottomNavigationBarItem>.generate(
         listsNavItem.length,
         (i) => BottomNavigationBarItem(

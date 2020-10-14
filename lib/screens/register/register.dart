@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
+import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/login/login.dart';
 import 'package:mosa_bin/screens/login/style_login.dart';
 import 'package:mosa_bin/screens/register/date_parser.dart';
@@ -51,27 +52,19 @@ class _RegisterPageState extends State<RegisterPage> {
       context,
       showTitleActions: true,
       theme: DatePickerTheme(
-        headerColor: Colors.orange,
-        backgroundColor: Colors.blue,
         itemStyle: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
           fontSize: 18,
-        ),
-        doneStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
         ),
       ),
       onConfirm: (date) {
         final _newValue = DateParser.date2display(date);
         _controllerDate.value = TextEditingValue(
           text: _newValue,
-          selection: TextSelection.fromPosition(
-            TextPosition(offset: _newValue.length),
-          ),
         );
-        // print('confirm $date');
+        FocusScopeNode focus = FocusScope.of(context);
+        if (!focus.hasPrimaryFocus) focus.unfocus();
       },
       currentTime: DateTime.now(),
       locale: LocaleType.en,
@@ -81,15 +74,22 @@ class _RegisterPageState extends State<RegisterPage> {
   void _onRegister(BuildContext context) {
     if (_validate()) {
       //register
+      Navigator.pushReplacement(
+        context,
+        PageTransition(
+          type: PageTransitionType.fade,
+          child: HomePage(),
+        ),
+      );
     } else {
       setState(() {
-        _errorUser = _controllerUser.text.isNotEmpty;
-        _errorPass = _controllerPass.text.isNotEmpty &&
-            _controllerPass.text == _controllerRePass.text;
-        _errorRePass = _controllerRePass.text.isNotEmpty &&
-            _controllerPass.text == _controllerRePass.text;
-        _errorEmail = _controllerPass.text.isNotEmpty;
-        _errorDate = DateParser.validateDisplay(_controllerDate.text);
+        _errorUser = _controllerUser.text.isEmpty;
+        _errorPass = _controllerPass.text.isEmpty ||
+            _controllerPass.text != _controllerRePass.text;
+        _errorRePass = _controllerRePass.text.isEmpty ||
+            _controllerPass.text != _controllerRePass.text;
+        _errorEmail = _controllerEmail.text.isEmpty;
+        _errorDate = !DateParser.validateDisplay(_controllerDate.text);
       });
     }
   }
@@ -100,7 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Container(
           width: width,
           height: height,
@@ -126,6 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 width: double.infinity,
                 controller: _controllerUser,
                 placeholder: 'Username',
+                error: _errorUser,
               ),
               SizedBox(height: 15.0),
               CustomTextField(
@@ -133,6 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _controllerPass,
                 placeholder: 'Password',
                 obsecure: true,
+                error: _errorPass,
               ),
               SizedBox(height: 15.0),
               CustomTextField(
@@ -140,12 +141,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _controllerRePass,
                 placeholder: 'Re-Password',
                 obsecure: true,
+                error: _errorRePass,
               ),
               SizedBox(height: 15.0),
               CustomTextField(
                 width: double.infinity,
                 controller: _controllerEmail,
                 placeholder: 'Email',
+                error: _errorEmail,
               ),
               SizedBox(height: 15.0),
               CustomTextField(
@@ -158,6 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 suffixContainerColor: Color(0xFFA9A9A9),
                 suffixColor: Colors.white,
+                error: _errorDate,
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),

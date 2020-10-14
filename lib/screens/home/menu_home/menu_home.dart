@@ -1,36 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:mosa_bin/components/button_home.dart';
+import 'package:mosa_bin/screens/home/menu_home/item_home_main.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
-import 'package:mosa_bin/screens/home/menu_home/news_item_home.dart';
+import 'package:mosa_bin/screens/home/menu_home/item_home_news.dart';
 import 'package:mosa_bin/screens/home/style_home.dart';
+import 'package:mosa_bin/screens/shop/shop_browse.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'data_home.dart';
 
 class MenuHome extends StatelessWidget {
+  final Function(int) onSetState;
+  final TextEditingController _controllerSearch = TextEditingController();
+
+  MenuHome({Key key, @required this.onSetState}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        buildTopBar(width),
-        buildHomeItem(),
-        buildNewsFeed(height),
+        buildTopBar(height),
+        buildHomeItem(context, height),
+        buildNewsFeed(height, width),
       ],
     );
   }
 
-  Container buildNewsFeed(double height) {
+  void _navigateMain(BuildContext ctx, String page) async {
+    int res = await Navigator.push(
+          ctx,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: (page == 'jemput')
+                ? ShopBrowsePage() // Jemput Page
+                : (page == 'trash')
+                    ? ShopBrowsePage() // Trash Page
+                    : (page == 'article')
+                        ? ShopBrowsePage() // Article Page
+                        : ShopBrowsePage(),
+          ),
+        ) ??
+        0;
+    onSetState(res);
+  }
+
+  Container buildNewsFeed(double height, double width) {
     return Container(
       color: StyleHome.newsColor,
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 15),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.only(left: 15),
             child: Text(
               'Berita Terbaru',
               style: TextStyle(
@@ -40,49 +64,58 @@ class MenuHome extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
-          ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: itemsNews.length,
-            itemBuilder: (ctx, i) {
-              return ItemNewsHome(
-                path: itemsNews[i]['path'] ?? '',
-                height: height * 0.16,
-                title: itemsNews[i]['title'] ?? '',
-                titleColor: Color(0xFF595454),
-              );
-            },
+          SizedBox(height: 20),
+          Container(
+            height: height * 0.2,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: itemsNews.length,
+              itemBuilder: (ctx, i) {
+                return ItemHomeNews(
+                  path: itemsNews[i]['path'] ?? '',
+                  height: height * 0.16,
+                  width: width * 0.6,
+                  title: itemsNews[i]['title'] ?? '',
+                  titleColor: Color(0xFF595454),
+                );
+              },
+            ),
           )
         ],
       ),
     );
   }
 
-  GridView buildHomeItem() {
-    return GridView.count(
-      primary: false,
-      padding: const EdgeInsets.all(20),
-      crossAxisSpacing: 20,
-      mainAxisSpacing: 50,
-      crossAxisCount: 2,
-      children: List<Widget>.generate(
-        itemsMenu.length,
-        (i) => ButtonHomeItem(
-          path: itemsMenu[i]['path'] ?? '',
-          descText: itemsMenu[i]['label'] ?? '',
-          descColor: Color(0xFF595454),
-          color: StyleHome.baseColor,
-          size: 30,
-          onPressed: () {},
+  Container buildHomeItem(BuildContext context, double height) {
+    return Container(
+      width: double.infinity,
+      child: GridView.count(
+        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+        shrinkWrap: true,
+        crossAxisSpacing: 70,
+        mainAxisSpacing: 50,
+        crossAxisCount: 2,
+        children: List<Widget>.generate(
+          itemsMenu.length,
+          (i) => ItemHomeMain(
+            path: itemsMenu[i]['path'] ?? '',
+            descText: itemsMenu[i]['label'] ?? '',
+            descColor: Color(0xFF595454),
+            color: StyleHome.baseColor,
+            size: 90,
+            onPressed: () {
+              _navigateMain(context, itemsMenu[i]['nav'] ?? '');
+            },
+          ),
         ),
       ),
     );
   }
 
-  Container buildTopBar(double width) {
+  Container buildTopBar(double height) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
       decoration: BoxDecoration(
         color: StyleHome.baseColor,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(10.0)),
@@ -92,12 +125,12 @@ class MenuHome extends StatelessWidget {
         children: [
           Image.asset(
             StyleHome.logoPath,
-            width: width * StyleHome.widthFactor,
+            height: height * StyleHome.heightFactor,
           ),
           SizedBox(height: 30),
           CustomTextField(
             width: double.infinity,
-            controller: null,
+            controller: _controllerSearch,
             placeholder: 'Cari Bank Sampah Organik',
             suffixIcon: Icons.search,
             onSuffixTap: () {},

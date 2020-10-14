@@ -65,17 +65,20 @@ class DateParser {
     if (t.length != 3) return false;
 
     int tanggal = int.tryParse(t[0]) ?? 40;
-    int bulan = months2ind[t[1]] ?? 40;
+    int bulan = months2ind[t[1]] ?? 40 + 1;
     int tahun = int.tryParse(t[2]) ?? 2020;
     final date = DateTime(tahun, bulan, tanggal);
-    final originalFormatString = toOriginalFormatString(date);
-    return '$tahun$bulan$tanggal' == originalFormatString;
+    final originalFormatString =
+        toOriginalFormatString(date.year, date.month, date.day);
+    final curFormatString = toOriginalFormatString(tahun, bulan, tanggal);
+    print(curFormatString + ' ' + originalFormatString);
+    return curFormatString == originalFormatString;
   }
 
-  static String toOriginalFormatString(DateTime dateTime) {
-    final y = dateTime.year.toString().padLeft(4, '0');
-    final m = dateTime.month.toString().padLeft(2, '0');
-    final d = dateTime.day.toString().padLeft(2, '0');
-    return "$y$m$d";
+  static String toOriginalFormatString(int year, int month, int day) {
+    final y = year.toString().padLeft(4, '0');
+    final m = month.toString().padLeft(2, '0');
+    final d = day.toString().padLeft(2, '0');
+    return '$y$m$d';
   }
 }

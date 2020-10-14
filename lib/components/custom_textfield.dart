@@ -44,14 +44,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
       width: widget.width,
       height: widget.height,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
+      padding:
+          EdgeInsets.fromLTRB(16, 0, (widget.suffixIcon != null) ? 0 : 16, 0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.radius),
         border:
-            Border.all(color: Colors.red, width: (widget.error) ? 1.0 : 0.0),
+            (widget.error) ? Border.all(color: Colors.red, width: 1.0) : null,
         color: widget.fieldColor,
         boxShadow: [
           (widget.shadow)
@@ -64,44 +62,52 @@ class _CustomTextFieldState extends State<CustomTextField> {
               : BoxShadow(),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: TextField(
-              obscureText: widget.obsecure,
-              controller: widget.controller,
-              keyboardType: widget.type,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0,
-              ),
-              decoration: InputDecoration.collapsed(
-                hintText: widget.placeholder,
-                hintStyle: TextStyle(
-                  color: Color(0xFFC4C4C4),
-                  fontSize: 14.0,
-                ),
-              ),
-            ),
-          ),
-          (widget.suffixIcon != null)
-              ? GestureDetector(
-                  onTap: widget.onSuffixTap,
-                  child: Container(
-                    height: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    color: widget.suffixContainerColor,
-                    alignment: Alignment.center,
-                    child: Icon(
-                      widget.suffixIcon,
-                      size: 26,
-                      color: widget.suffixColor,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widget.radius),
+        child: Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+                  child: TextField(
+                    obscureText: widget.obsecure,
+                    controller: widget.controller,
+                    keyboardType: widget.type,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.0,
+                    ),
+                    decoration: InputDecoration.collapsed(
+                      hintText: widget.placeholder,
+                      hintStyle: TextStyle(
+                        color: Color(0xFFC4C4C4),
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
-                )
-              : Container(),
-        ],
+                ),
+              ),
+              (widget.suffixIcon != null)
+                  ? GestureDetector(
+                      onTap: widget.onSuffixTap,
+                      child: Container(
+                        height: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        color: widget.suffixContainerColor,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          widget.suffixIcon,
+                          size: 26,
+                          color: widget.suffixColor,
+                        ),
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
       ),
     );
   }
