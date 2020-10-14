@@ -176,6 +176,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ],
           ),
+          SizedBox(height: 30),
           Row(
             children: [
               GestureDetector(
@@ -189,10 +190,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               SizedBox(width: 30),
               CustomButton(
                 height: 50,
-                width: double.infinity,
+                width: 100,
                 color: Color(0xFFF9B915),
                 text: Text(
-                  'Beli\nSekarang',
+                  'Beli Sekarang',
                   style: TextStyle(
                     fontSize: 9,
                     color: Colors.white,
@@ -218,14 +219,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             height: widget.prodWidth,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.prod['path']),
+                image: AssetImage(widget.prod['img']),
                 fit: BoxFit.fill,
               ),
             ),
           ),
           SizedBox(height: 10),
           Text(
-            widget.prod['label'],
+            widget.prod['name'],
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -250,7 +251,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               Text(
-                '${widget.prod['rating']}}',
+                '${widget.prod['rating']}',
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.green,
@@ -270,7 +271,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               Text(
-                '${widget.prod['sold']}} terjual',
+                '${widget.prod['sold']} terjual',
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.black,
@@ -278,7 +279,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               SizedBox(width: 20),
               Text(
-                '${widget.prod['stock']}} stok',
+                '${widget.prod['stock']} stok',
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.black,

@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _getBody() {
+  Widget _getBody(double width) {
     switch (_currentIndex) {
       case 0:
         return MenuHome(onSetState: _changeState);
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         return MenuHelp();
         break;
       case 2:
-        return MenuAkun();
+        return MenuAkun(width: width);
         break;
       default:
         return MenuHome(onSetState: _changeState);
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: (_currentIndex != 0)
           ? AppBar(
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           : null,
-      body: _getBody(),
+      body: _getBody(width),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: MainBottomNavBar(
         pos: _currentIndex,

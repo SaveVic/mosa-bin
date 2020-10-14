@@ -9,17 +9,19 @@ class ItemTestimoni extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(bottom: 30),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.person_outline, size: 40, color: Colors.black),
           SizedBox(width: 20),
-          Text(
-            '$user\n$msg',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 12,
+          Expanded(
+            child: Text(
+              '$user\n$msg',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+              ),
             ),
           ),
         ],

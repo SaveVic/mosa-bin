@@ -4,6 +4,7 @@ import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/menu_home/item_home_news.dart';
 import 'package:mosa_bin/screens/home/style_home.dart';
 import 'package:mosa_bin/screens/shop/shop_browse.dart';
+import 'package:mosa_bin/screens/trash_bin/trash_bin.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'data_home.dart';
@@ -36,7 +37,7 @@ class MenuHome extends StatelessWidget {
             child: (page == 'jemput')
                 ? ShopBrowsePage() // Jemput Page
                 : (page == 'trash')
-                    ? ShopBrowsePage() // Trash Page
+                    ? TrashBinPage()
                     : (page == 'article')
                         ? ShopBrowsePage() // Article Page
                         : ShopBrowsePage(),

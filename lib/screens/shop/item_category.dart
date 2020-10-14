@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class ItemCategory extends StatelessWidget {
   final String path;
   final String label;
+  final double image_height = 140;
+  final double label_cover_height = 100;
+  final double label_size = 18;
 
   const ItemCategory({Key key, @required this.path, @required this.label})
       : super(key: key);
@@ -19,7 +22,7 @@ class ItemCategory extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10),
       child: Container(
         width: double.infinity,
-        height: 80,
+        height: image_height,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -29,7 +32,7 @@ class ItemCategory extends StatelessWidget {
         ),
         child: Container(
           width: double.infinity,
-          height: 64.0,
+          height: label_cover_height,
           padding: EdgeInsets.symmetric(vertical: 20),
           alignment: Alignment.center,
           color: Colors.white.withOpacity(0.73),
@@ -37,7 +40,7 @@ class ItemCategory extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 12.0,
+              fontSize: label_size,
               color: Colors.black,
               fontWeight: FontWeight.w600,
             ),

@@ -17,7 +17,7 @@ class FilterHelper {
           confidence[i]['val']++;
       }
     }
-    confidence.removeWhere((e) => e['val'] == 0);
+    confidence.removeWhere((e) => e['val'] < 2);
     confidence.sort((a, b) => b['val'].compareTo(a['val']));
     List<Map> result = [];
     for (Map<String, int> c in confidence) result.add(source[c['id']]);

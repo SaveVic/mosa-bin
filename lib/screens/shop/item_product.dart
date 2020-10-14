@@ -28,7 +28,7 @@ class ItemProduct extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(prod['path']),
+                  image: AssetImage(prod['img']),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -36,7 +36,7 @@ class ItemProduct extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            prod['label'],
+            prod['name'],
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -61,7 +61,7 @@ class ItemProduct extends StatelessWidget {
                 ),
               ),
               Text(
-                '${prod['rating']}}',
+                '${prod['rating']}',
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.green,
@@ -80,7 +80,7 @@ class ItemProduct extends StatelessWidget {
                 ),
               ),
               Text(
-                '${prod['sold']}} terjual',
+                '${prod['sold']} terjual',
                 style: TextStyle(
                   fontSize: 9,
                   color: Colors.black,
