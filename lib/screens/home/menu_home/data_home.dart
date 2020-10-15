@@ -24,7 +24,7 @@ const List<Map> itemsMenu = [
 const List<Map> itemsNews = [
   {
     'path': 'assets/images/news_img/news1.png',
-    'title': 'Kali citarum, sungai tekotor\ndi dunia',
+    'title': 'Kali citarum, sungai terkotor\ndi dunia',
   },
   {
     'path': 'assets/images/news_img/news2.png',

@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
 
-class StyleLogin {
-  static const logoPath = 'assets/images/app-logo.png';
-  static const logoWidthFactor = 0.6;
-  static const logoHeightFactor = 0.14;
+const String logoPath = 'assets/images/app-logo.png';
+const double logoWidth = 240;
+const double logoHeight = 80;
 
-  static const logoMargin = 100.0;
-  static const descMargin = 23.0;
+const double logoMargin = 75;
+const double descMargin = 23;
 
-  static const imageWidthFactor = 0.86;
-  static const imageHeightFactor = 0.25;
+const double titleSize = 18.0;
+const double descSize = 13.0;
 
-  static const titleText = 'Welcome to MOSA!';
-  static const titleColor = Color(0xFF000000);
-  static const titleSize = 18.0;
-  static const titleWeight = FontWeight.bold;
-
-  static const descText =
-      'Are you ready to enjoy a whole new live without waste ? Let’s go !';
-  static const descColor = Color(0xFF000000);
-  static const descSize = 13.0;
-
-  static const buttonColor = Color(0xFF6A9923);
-  static const buttonWidthFactor = 0.34;
-  static const buttonHeightFactor = 0.06;
-  static const buttonTextColor = Color(0xFFFFFFFF);
-  static const buttonTextSize = 15.0;
-}
+const Color buttonColor = Color(0xFF6A9923);
+const double buttonWidth = 124;
+const double buttonHeight = 38;
+const double buttonTextSize = 15.0;

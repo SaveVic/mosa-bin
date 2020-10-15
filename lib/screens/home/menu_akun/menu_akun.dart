@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/screens/home/menu_akun/data_akun.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
@@ -8,9 +9,9 @@ import 'package:page_transition/page_transition.dart';
 
 class MenuAkun extends StatelessWidget {
   final double width;
-  final double bg_height = 100;
-  final double ava_radius = 80;
-  final double cam_size = 30;
+  final double bg_height = 80;
+  final double ava_radius = 50;
+  final double cam_size = 17;
 
   const MenuAkun({Key key, this.width}) : super(key: key);
 
@@ -23,21 +24,23 @@ class MenuAkun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       width: double.infinity,
       child: Column(
         children: [
           buildProfilePict(),
-          SizedBox(height: 10),
+          SizedBox(height: 6.h),
           Text(
             nickname,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w700,
               color: Colors.black,
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 25.h),
           buildInformation(
             path: icon_litter,
             descTitle: 'Total berat sampah yang di kumpulkan',
@@ -63,15 +66,15 @@ class MenuAkun extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.bottomRight,
-            margin: EdgeInsets.only(right: 20),
+            margin: EdgeInsets.only(right: 20.w),
             child: CustomButton(
               color: Color(0xFF59981A),
-              width: 120,
-              height: 40,
+              width: 120.w,
+              height: 40.h,
               text: Text(
                 'Log Out',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -90,25 +93,25 @@ class MenuAkun extends StatelessWidget {
       {String path, String descTitle, String descSub = '', Color color}) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
       color: color,
       child: Row(
         children: [
           Image.asset(
             path,
-            width: 40,
-            height: 40,
+            width: 40.w,
+            height: 40.h,
             fit: BoxFit.fill,
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 20.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 descTitle,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),
@@ -117,7 +120,7 @@ class MenuAkun extends StatelessWidget {
                   ? Text(
                       descSub,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                       ),
@@ -133,9 +136,9 @@ class MenuAkun extends StatelessWidget {
   Stack buildProfilePict() {
     return Stack(
       children: [
-        Container(height: 2 * bg_height),
+        Container(height: (2 * bg_height).h),
         Container(
-          height: bg_height,
+          height: bg_height.h,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg_path),
@@ -144,16 +147,16 @@ class MenuAkun extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 2 * (bg_height - ava_radius),
-          left: width / 2 - ava_radius,
+          top: 2 * (bg_height - ava_radius).h,
+          left: width.w / 2 - ava_radius.h,
           child: CircleAvatar(
-            radius: ava_radius,
+            radius: ava_radius.h,
             backgroundImage: AssetImage(pict_path),
           ),
         ),
         Positioned(
-          left: width / 2 + sqrt(cam_size * (2 * ava_radius - cam_size)),
-          top: 2 * bg_height - cam_size,
+          left: width.w / 2 + sqrt(cam_size.h * (2 * ava_radius - cam_size).h),
+          top: 2 * bg_height.h - cam_size.h,
           child: GestureDetector(
             onTap: () {},
             child: Icon(

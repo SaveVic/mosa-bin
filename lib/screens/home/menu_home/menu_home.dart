@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/screens/home/menu_home/item_home_main.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/menu_home/item_home_news.dart';
-import 'package:mosa_bin/screens/home/style_home.dart';
 import 'package:mosa_bin/screens/shop/shop_browse.dart';
 import 'package:mosa_bin/screens/trash_bin/trash_bin.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../style_home.dart';
 
 import 'data_home.dart';
 
@@ -17,8 +19,11 @@ class MenuHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
+    double width = 360.w;
+    double height = 640.h;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -49,33 +54,33 @@ class MenuHome extends StatelessWidget {
 
   Container buildNewsFeed(double height, double width) {
     return Container(
-      color: StyleHome.newsColor,
+      color: newsColor,
       padding: EdgeInsets.symmetric(vertical: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15),
+            padding: EdgeInsets.only(left: 10.w),
             child: Text(
               'Berita Terbaru',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 12.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15.h),
           Container(
-            height: height * 0.2,
+            height: 140.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemsNews.length,
               itemBuilder: (ctx, i) {
                 return ItemHomeNews(
                   path: itemsNews[i]['path'] ?? '',
-                  height: height * 0.16,
-                  width: width * 0.6,
+                  height: 110.h,
+                  padding: 10.w,
                   title: itemsNews[i]['title'] ?? '',
                   titleColor: Color(0xFF595454),
                 );
@@ -102,8 +107,8 @@ class MenuHome extends StatelessWidget {
             path: itemsMenu[i]['path'] ?? '',
             descText: itemsMenu[i]['label'] ?? '',
             descColor: Color(0xFF595454),
-            color: StyleHome.baseColor,
-            size: 90,
+            color: baseColor,
+            size: 70.w,
             onPressed: () {
               _navigateMain(context, itemsMenu[i]['nav'] ?? '');
             },
@@ -116,26 +121,26 @@ class MenuHome extends StatelessWidget {
   Container buildTopBar(double height) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
+      padding: EdgeInsets.fromLTRB(15.w, 30.h, 15.w, 15.h),
       decoration: BoxDecoration(
-        color: StyleHome.baseColor,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10.0)),
+        color: baseColor,
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10.0.w)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            StyleHome.logoPath,
-            height: height * StyleHome.heightFactor,
+            logoPath,
+            height: logoHeight.h,
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 30.h),
           CustomTextField(
             width: double.infinity,
             controller: _controllerSearch,
             placeholder: 'Cari Bank Sampah Organik',
             suffixIcon: Icons.search,
             onSuffixTap: () {},
-            radius: 10,
+            radius: 10.w,
             shadow: false,
             fieldColor: Color(0xFFF2F2F0),
           ),

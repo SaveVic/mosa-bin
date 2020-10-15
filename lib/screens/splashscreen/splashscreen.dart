@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/models/shared_pref.dart';
 import 'package:mosa_bin/models/user.dart';
 import 'package:mosa_bin/screens/intro/intro_page.dart';
 import 'package:mosa_bin/screens/login/login.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
-import 'package:mosa_bin/screens/splashscreen/style_splash.dart';
 import 'package:page_transition/page_transition.dart';
+import 'style_splash.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -41,13 +42,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          StyleSplash.logoPath,
-          width: MediaQuery.of(context).size.width * StyleSplash.widthFactor,
-          height: MediaQuery.of(context).size.height * StyleSplash.heightFactor,
+          logoPath,
+          width: logoWidth.w,
+          height: logoHeight.h,
         ),
       ),
     );

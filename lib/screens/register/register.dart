@@ -1,13 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/login/login.dart';
-import 'package:mosa_bin/screens/login/style_login.dart';
 import 'package:mosa_bin/screens/register/date_parser.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../login/style_login.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -96,63 +98,66 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
+    const double tfMargin = 30;
+    const double tfHeight = 40;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: width,
-          height: height,
-          padding: EdgeInsets.symmetric(
-            horizontal: 55,
-          ),
+          width: 360.w,
+          height: 640.h,
+          padding: EdgeInsets.symmetric(horizontal: 55.w),
           child: Column(
             children: [
               Container(
                 width: double.infinity,
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(
-                  top: 200,
-                  bottom: 80,
-                ),
+                margin: EdgeInsets.only(top: 70.h, bottom: 35.h),
                 child: Image.asset(
-                  StyleLogin.logoPath,
-                  width: width * StyleLogin.logoWidthFactor,
-                  height: height * StyleLogin.logoHeightFactor,
+                  logoPath,
+                  width: logoWidth.w,
+                  height: logoHeight.h,
                 ),
               ),
               CustomTextField(
                 width: double.infinity,
+                height: tfHeight.h,
                 controller: _controllerUser,
                 placeholder: 'Username',
                 error: _errorUser,
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: tfMargin.h),
               CustomTextField(
                 width: double.infinity,
+                height: tfHeight.h,
                 controller: _controllerPass,
                 placeholder: 'Password',
                 obsecure: true,
                 error: _errorPass,
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: tfMargin.h),
               CustomTextField(
                 width: double.infinity,
+                height: tfHeight.h,
                 controller: _controllerRePass,
                 placeholder: 'Re-Password',
                 obsecure: true,
                 error: _errorRePass,
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: tfMargin.h),
               CustomTextField(
                 width: double.infinity,
+                height: tfHeight.h,
                 controller: _controllerEmail,
                 placeholder: 'Email',
                 error: _errorEmail,
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: tfMargin.h),
               CustomTextField(
                 width: double.infinity,
+                height: tfHeight.h,
                 controller: _controllerDate,
                 placeholder: 'Birth Date',
                 suffixIcon: Icons.date_range,
@@ -164,16 +169,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 error: _errorDate,
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(vertical: tfMargin.h),
                 child: CustomButton(
                   width: double.infinity,
-                  height: height * StyleLogin.buttonHeightFactor,
-                  color: StyleLogin.buttonColor,
+                  height: buttonHeight.h,
+                  color: buttonColor,
                   text: Text(
                     'REGISTER',
                     style: TextStyle(
-                      fontSize: StyleLogin.buttonTextSize,
-                      color: StyleLogin.buttonTextColor,
+                      fontSize: buttonTextSize.sp,
+                      color: Colors.white,
                     ),
                   ),
                   onPressed: () {
@@ -185,13 +190,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: RichText(
                   text: TextSpan(
                     text: 'Sudah memiliki akun ?',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
+                    style: TextStyle(color: Colors.black, fontSize: 12.sp),
                     children: <TextSpan>[
                       TextSpan(
                         text: ' Login Sekarang',
                         style: TextStyle(
                           color: Color(0xFF6EA8B0),
-                          fontSize: 12,
+                          fontSize: 12.sp,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

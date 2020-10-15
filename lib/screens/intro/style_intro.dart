@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class StyleIntro {
-  static const titlePath = 'assets/images/app-logo.png';
-  static const titleWidthFactor = 0.6;
-  static const titleHeightFactor = 0.14;
+const String titlePath = 'assets/images/app-logo.png';
+const double titleWidth = 220;
+const double titleHeight = 70;
 
-  static const imageWidthFactor = 0.86;
-  static const imageHeightFactor = 0.25;
+const double imageWidth = 0.86;
+const double imageHeight = 0.25;
 
-  static const descColor = Color(0xFF6A9923);
-  static const descSize = 14.0;
+const Color descColor = Color(0xFF6A9923);
+const double descSize = 14.0;
 
-  static const dotColor = Color(0xFFC4C4C4);
-  static const dotActivateColor = Color(0xFF88B337);
-}
+const Color dotColor = Color(0xFFC4C4C4);
+const Color dotActivateColor = Color(0xFF88B337);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemHomeMain extends StatelessWidget {
   final String path;
@@ -20,6 +21,8 @@ class ItemHomeMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,17 +40,17 @@ class ItemHomeMain extends StatelessWidget {
               ),
               child: Image.asset(
                 path,
-                width: size / 2,
-                height: size / 2,
+                width: size * 0.75,
+                height: size * 0.75,
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             descText,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 12.sp,
               color: descColor,
             ),
           )

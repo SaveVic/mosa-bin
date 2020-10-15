@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/screens/login/login.dart';
-import 'package:mosa_bin/screens/login/style_login.dart';
 import 'package:mosa_bin/screens/register/register.dart';
 import 'package:page_transition/page_transition.dart';
+import 'style_login.dart';
 
 class PreLoginPage extends StatelessWidget {
   void _toLogin(BuildContext context) {
@@ -28,14 +29,14 @@ class PreLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
 
     return Scaffold(
       body: Container(
-        width: width,
-        height: height,
-        padding: EdgeInsets.symmetric(horizontal: 33),
+        width: 360.w,
+        height: 640.h,
+        padding: EdgeInsets.symmetric(horizontal: 33.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,42 +44,42 @@ class PreLoginPage extends StatelessWidget {
             Container(
               width: double.infinity,
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(bottom: StyleLogin.logoMargin),
               child: Image.asset(
-                StyleLogin.logoPath,
-                width: width * StyleLogin.logoWidthFactor,
-                height: height * StyleLogin.logoHeightFactor,
+                logoPath,
+                width: logoWidth.w,
+                height: logoHeight.h,
               ),
             ),
+            SizedBox(height: logoMargin.h),
             Text(
-              StyleLogin.titleText,
+              'Welcome to MOSA!',
               style: TextStyle(
-                fontSize: StyleLogin.titleSize,
-                color: StyleLogin.titleColor,
-                fontWeight: StyleLogin.titleWeight,
+                fontSize: titleSize.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: StyleLogin.descMargin),
+            SizedBox(height: descMargin.h),
             Text(
-              StyleLogin.descText,
+              'Are you ready to enjoy a whole new live without waste ? Let’s go !',
               style: TextStyle(
-                fontSize: StyleLogin.descSize,
-                color: StyleLogin.descColor,
+                fontSize: descSize.sp,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: StyleLogin.descMargin),
+            SizedBox(height: descMargin.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
-                  width: width * StyleLogin.buttonWidthFactor,
-                  height: height * StyleLogin.buttonHeightFactor,
-                  color: StyleLogin.buttonColor,
+                  width: buttonWidth.w,
+                  height: buttonHeight.h,
+                  color: buttonColor,
                   text: Text(
-                    'LOGIN',
+                    'LOG IN',
                     style: TextStyle(
-                      fontSize: StyleLogin.buttonTextSize,
-                      color: StyleLogin.buttonTextColor,
+                      fontSize: buttonTextSize.sp,
+                      color: Colors.white,
                     ),
                   ),
                   onPressed: () {
@@ -86,14 +87,14 @@ class PreLoginPage extends StatelessWidget {
                   },
                 ),
                 CustomButton(
-                  width: width * StyleLogin.buttonWidthFactor,
-                  height: height * StyleLogin.buttonHeightFactor,
-                  color: StyleLogin.buttonColor,
+                  width: buttonWidth.w,
+                  height: buttonHeight.h,
+                  color: buttonColor,
                   text: Text(
                     'REGISTER',
                     style: TextStyle(
-                      fontSize: StyleLogin.buttonTextSize,
-                      color: StyleLogin.buttonTextColor,
+                      fontSize: buttonTextSize.sp,
+                      color: Colors.white,
                     ),
                   ),
                   onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemProduct extends StatelessWidget {
   final Map prod;
@@ -7,9 +8,11 @@ class ItemProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.w),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.25),
@@ -20,7 +23,7 @@ class ItemProduct extends StatelessWidget {
         ],
         color: Colors.white,
       ),
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(10.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,19 +37,20 @@ class ItemProduct extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             prod['name'],
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 12.sp,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
+          SizedBox(height: 5.h),
           Text(
             prod['owner'],
             style: TextStyle(
-              fontSize: 9,
+              fontSize: 9.sp,
               color: Colors.black,
             ),
           ),
@@ -56,14 +60,14 @@ class ItemProduct extends StatelessWidget {
               Text(
                 '${prod['price']} / ${prod['unit']}',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),
               Text(
                 '${prod['rating']}',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.green,
                 ),
               ),
@@ -75,14 +79,14 @@ class ItemProduct extends StatelessWidget {
               Text(
                 '${prod['point']} poin',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),
               Text(
                 '${prod['sold']} terjual',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),

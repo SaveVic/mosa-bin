@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/shop/item_category.dart';
@@ -69,10 +70,10 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
       return Expanded(
         child: GridView.count(
           primary: false,
-          crossAxisSpacing: 40,
-          mainAxisSpacing: 40,
+          crossAxisSpacing: 40.w,
+          mainAxisSpacing: 30.h,
           crossAxisCount: 2,
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(10.w),
           childAspectRatio: 0.7,
           children: List<Widget>.generate(
             _displayList.length,
@@ -118,6 +119,8 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -135,7 +138,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
         title: Text(
           'Toko Produk Organik',
           style: TextStyle(
-            fontSize: 14.0,
+            fontSize: 14.0.sp,
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
@@ -144,7 +147,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
       backgroundColor: Color(0xFFF2F2F0),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
         child: Column(
           children: [
             CustomTextField(
@@ -155,10 +158,10 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
               onSuffixTap: () {
                 _onSearch(context);
               },
-              radius: 10,
+              radius: 10.w,
               shadow: false,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             _buildBody(context),
           ],
         ),

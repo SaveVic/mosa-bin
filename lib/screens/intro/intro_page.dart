@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:mosa_bin/models/intro.dart';
 import 'package:mosa_bin/models/shared_pref.dart';
 import 'package:mosa_bin/models/user.dart';
-import 'package:mosa_bin/screens/intro/style_intro.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'style_intro.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -46,8 +48,8 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
 
     return new IntroSlider(
       slides: List<Slide>.generate(
@@ -55,36 +57,36 @@ class _IntroPageState extends State<IntroPage> {
         (i) => Slide(
           backgroundColor: Colors.white,
           widgetTitle: Image.asset(
-            StyleIntro.titlePath,
-            width: width * StyleIntro.titleWidthFactor,
-            height: height * StyleIntro.titleHeightFactor,
+            titlePath,
+            width: titleWidth.w,
+            height: titleHeight.h,
           ),
           pathImage: introList[i].image,
-          widthImage: width * StyleIntro.imageWidthFactor,
-          heightImage: height * StyleIntro.imageHeightFactor,
+          widthImage: imageWidth.w,
+          heightImage: imageHeight.h,
           description: introList[i].description,
           styleDescription: TextStyle(
-            color: StyleIntro.descColor,
-            fontSize: StyleIntro.descSize,
+            color: descColor,
+            fontSize: descSize.sp,
           ),
         ),
       ),
       onDonePress: () async {
         await onDonePress();
       },
-      colorDot: StyleIntro.dotColor,
-      colorActiveDot: StyleIntro.dotActivateColor,
+      colorDot: dotColor,
+      colorActiveDot: dotActivateColor,
       styleNameSkipBtn: TextStyle(
-        color: StyleIntro.dotColor,
-        fontSize: StyleIntro.descSize,
+        color: dotColor,
+        fontSize: descSize.sp,
       ),
       styleNamePrevBtn: TextStyle(
-        color: StyleIntro.dotColor,
-        fontSize: StyleIntro.descSize,
+        color: dotColor,
+        fontSize: descSize.sp,
       ),
       styleNameDoneBtn: TextStyle(
-        color: StyleIntro.dotColor,
-        fontSize: StyleIntro.descSize,
+        color: dotColor,
+        fontSize: descSize.sp,
       ),
     );
   }

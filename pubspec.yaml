@@ -28,6 +28,7 @@ dependencies:
   intro_slider: ^2.3.3
   flutter_datetime_picker: ^1.4.0
   grouped_buttons: ^1.0.4
+  flutter_screenutil: ^3.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
@@ -54,6 +55,7 @@ flutter:
     - assets/images/icon_home/
     - assets/images/news_img/
     - assets/images/icon_akun/
+    - assets/images/product_category/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -5,11 +5,13 @@ void main() {
   runApp(MyApp());
 }
 
+// ScreenUtil.init(context, designSize: Size(360, 640), allowFontScaling: false);
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'My MOSA',
       home: SplashScreen(),
     );
   }

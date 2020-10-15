@@ -1,23 +1,26 @@
+const String catFolder = 'assets/images/product_category';
+const String prodFolder = 'assets/images/product_category';
+
 const List<Map> category = [
   {
     'c': 'Buah dan Sayur Organik',
     't': ['buah', 'sayur', 'organik'],
-    'p': 'assets/images/news_img/news2.png',
+    'p': '$catFolder/sayur.png',
   },
   {
     'c': 'Daging dan Ikan Organik',
     't': ['daging', 'ikan', 'organik'],
-    'p': 'assets/images/news_img/news2.png',
+    'p': '$catFolder/daging.png',
   },
   {
     'c': 'Produk Olahan Organik',
     't': ['produk', 'olahan', 'organik'],
-    'p': 'assets/images/news_img/news2.png',
+    'p': '$catFolder/produk.png',
   },
   {
     'c': 'Pupuk Kompos',
     't': ['pupuk', 'kompos'],
-    'p': 'assets/images/news_img/news2.png',
+    'p': '$catFolder/pupuk.png',
   },
 ];
 
@@ -25,7 +28,7 @@ const List<Map> products = [
   {
     'idCategory': 0,
     'name': 'Sawi Organik',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/sayur.png',
     'owner': 'Cikgu',
     'lower': ['sawi', 'organik'],
     'price': 15000,
@@ -38,7 +41,7 @@ const List<Map> products = [
   {
     'idCategory': 0,
     'name': 'Sawi Putih Organik',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/sayur.png',
     'owner': 'Sayur Segar',
     'lower': ['sawi', 'putih', 'organik'],
     'price': 16000,
@@ -51,7 +54,7 @@ const List<Map> products = [
   {
     'idCategory': 0,
     'name': 'Sawi Organik',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/sayur.png',
     'owner': 'Kang Bayu',
     'lower': ['sawi', 'organik'],
     'price': 18000,
@@ -64,7 +67,7 @@ const List<Map> products = [
   {
     'idCategory': 0,
     'name': 'Sawi Putih Organik',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/sayur.png',
     'owner': 'Raden',
     'lower': ['sawi', 'putih', 'organik'],
     'price': 15000,
@@ -77,7 +80,7 @@ const List<Map> products = [
   {
     'idCategory': 1,
     'name': 'Hiu Segar',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/daging.png',
     'owner': 'Bambang',
     'lower': ['hiu', 'segar'],
     'price': 36000,
@@ -90,7 +93,7 @@ const List<Map> products = [
   {
     'idCategory': 2,
     'name': 'Salad Buah',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/produk.png',
     'owner': 'Yummy',
     'lower': ['salad', 'buah'],
     'price': 15000,
@@ -103,7 +106,7 @@ const List<Map> products = [
   {
     'idCategory': 3,
     'name': 'Pupuk N35',
-    'img': 'assets/images/news_img/news2.png',
+    'img': '$prodFolder/pupuk.png',
     'owner': 'Makrobos',
     'lower': ['pupuk', 'n35'],
     'price': 30000,

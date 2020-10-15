@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/screens/home/menu_akun/menu_akun.dart';
 import 'package:mosa_bin/screens/home/menu_help/menu_help.dart';
@@ -47,7 +48,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
+
     return Scaffold(
       appBar: (_currentIndex != 0)
           ? AppBar(
@@ -67,14 +70,14 @@ class _HomePageState extends State<HomePage> {
               title: Text(
                 (_currentIndex == 1) ? 'Help' : 'Akun',
                 style: TextStyle(
-                  fontSize: 14.0,
+                  fontSize: 14.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             )
           : null,
-      body: _getBody(width),
+      body: _getBody(360.w),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: MainBottomNavBar(
         pos: _currentIndex,

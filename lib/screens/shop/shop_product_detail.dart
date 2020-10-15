@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/screens/shop/data_testi.dart';
@@ -31,7 +32,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     color: Colors.white,
   );
 
-  int counter = 1;
+  int counter = 0;
 
   void incrementCounter() {
     setState(() {
@@ -65,6 +66,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Scaffold(
       backgroundColor: Color(0xFFF2F2F0),
       appBar: AppBar(
@@ -82,21 +85,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         title: Text(
           'Toko Produk Organik',
           style: TextStyle(
-            fontSize: 14.0,
+            fontSize: 14.0.sp,
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
         ),
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
         child: ListView(
           children: [
             Container(
               width: double.infinity,
               decoration: _outerBox,
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+              margin: EdgeInsets.only(bottom: 20.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -108,8 +111,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Container(
               width: double.infinity,
               decoration: _outerBox,
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              margin: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
+              margin: EdgeInsets.only(bottom: 20.h),
               child: Column(
                 children: List<Widget>.generate(
                   testi.length,
@@ -138,8 +141,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: 30,
-                width: 30,
+                height: 30.h,
+                width: 30.w,
                 decoration: BoxDecoration(
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(20)),
@@ -148,20 +151,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: Icon(
                     Icons.remove_circle,
                     color: Colors.white,
-                    size: 30,
+                    size: 30.w,
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 6, right: 6),
+                margin: EdgeInsets.only(left: 6.w, right: 6.w),
                 child: Text(
                   '$counter',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
-                height: 30,
-                width: 30,
+                height: 30.h,
+                width: 30.w,
                 decoration: BoxDecoration(
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(20)),
@@ -170,13 +174,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: Icon(
                     Icons.add_circle,
                     color: Colors.white,
-                    size: 30,
+                    size: 30.w,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 30.h),
           Row(
             children: [
               GestureDetector(
@@ -184,18 +188,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Icon(
                   Icons.add_shopping_cart,
                   color: Color(0xFF6A9923),
-                  size: 50,
+                  size: 50.w,
                 ),
               ),
-              SizedBox(width: 30),
+              SizedBox(width: 30.w),
               CustomButton(
-                height: 50,
-                width: 100,
+                height: 50.h,
+                width: 100.w,
                 color: Color(0xFFF9B915),
                 text: Text(
                   'Beli Sekarang',
                   style: TextStyle(
-                    fontSize: 9,
+                    fontSize: 9.sp,
                     color: Colors.white,
                   ),
                 ),
@@ -210,13 +214,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   Container buildProductInfo() {
     return Container(
-      width: widget.prodWidth,
+      width: widget.prodWidth.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: widget.prodWidth,
-            height: widget.prodWidth,
+            width: widget.prodWidth.w,
+            height: widget.prodWidth.w,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(widget.prod['img']),
@@ -224,11 +228,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             widget.prod['name'],
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -236,7 +240,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           Text(
             widget.prod['owner'],
             style: TextStyle(
-              fontSize: 9,
+              fontSize: 9.sp,
               color: Colors.black,
             ),
           ),
@@ -246,14 +250,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Text(
                 '${widget.prod['price']} / ${widget.prod['unit']}',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),
               Text(
                 '${widget.prod['rating']}',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.green,
                 ),
               ),
@@ -265,7 +269,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Text(
                   '${widget.prod['point']} poin',
                   style: TextStyle(
-                    fontSize: 9,
+                    fontSize: 9.sp,
                     color: Colors.black,
                   ),
                 ),
@@ -273,15 +277,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Text(
                 '${widget.prod['sold']} terjual',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 20.w),
               Text(
                 '${widget.prod['stock']} stok',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 9.sp,
                   color: Colors.black,
                 ),
               ),
