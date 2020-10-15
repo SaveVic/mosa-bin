@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/screens/home/menu_home/item_home_main.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/menu_home/item_home_news.dart';
+import 'package:mosa_bin/screens/pick_up/pick_up.dart';
 import 'package:mosa_bin/screens/shop/shop_browse.dart';
 import 'package:mosa_bin/screens/trash_bin/trash_bin.dart';
 import 'package:page_transition/page_transition.dart';
@@ -19,8 +20,8 @@ class MenuHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: false);
+    // ScreenUtil.init(context,
+    //     designSize: Size(360, 640), allowFontScaling: false);
     double width = 360.w;
     double height = 640.h;
 
@@ -40,11 +41,11 @@ class MenuHome extends StatelessWidget {
           PageTransition(
             type: PageTransitionType.rightToLeft,
             child: (page == 'jemput')
-                ? ShopBrowsePage() // Jemput Page
+                ? PickUpPage()
                 : (page == 'trash')
                     ? TrashBinPage()
                     : (page == 'article')
-                        ? ShopBrowsePage() // Article Page
+                        ? TrashBinPage() // Article Page
                         : ShopBrowsePage(),
           ),
         ) ??
@@ -70,7 +71,7 @@ class MenuHome extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 15.h),
+          SizedBox(height: 10.h),
           Container(
             height: 140.h,
             child: ListView.builder(
@@ -79,7 +80,8 @@ class MenuHome extends StatelessWidget {
               itemBuilder: (ctx, i) {
                 return ItemHomeNews(
                   path: itemsNews[i]['path'] ?? '',
-                  height: 110.h,
+                  height: 100.h,
+                  width: 200.w,
                   padding: 10.w,
                   title: itemsNews[i]['title'] ?? '',
                   titleColor: Color(0xFF595454),

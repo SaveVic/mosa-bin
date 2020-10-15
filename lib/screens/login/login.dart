@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
+import 'package:mosa_bin/models/shared_pref.dart';
+import 'package:mosa_bin/models/user.dart';
 import 'package:mosa_bin/screens/home/home.dart';
+import 'package:mosa_bin/screens/login/data_login.dart';
 import 'package:mosa_bin/screens/register/register.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -18,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerUser = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
 
+  SharedPreferencesHelper helper = SharedPreferencesHelper();
+
   bool _errorUser = false;
   bool _errorPass = false;
 
@@ -27,17 +32,30 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  void _onLogin(BuildContext context) {
+  _onLogin(BuildContext context) async {
     if (_validate()) {
-      //login
-      Navigator.pushReplacement(
-        context,
-        PageTransition(
-          type: PageTransitionType.fade,
-          child: HomePage(),
+      if (_controllerUser.text == username &&
+          _controllerPass.text == password) {
+        await helper.setData(User('admin', 'admin', true));
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.fade,
+            child: HomePage(),
+          ),
+        );
+      } else
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Username atau Password salah'),
+          ),
+        );
+    } else {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Username dan Password tidak boleh kosong'),
         ),
       );
-    } else {
       setState(() {
         _errorUser = _controllerUser.text.isEmpty;
         _errorPass = _controllerPass.text.isEmpty;

@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/custom_button.dart';
+import 'package:mosa_bin/models/shared_pref.dart';
+import 'package:mosa_bin/models/user.dart';
 import 'package:mosa_bin/screens/home/menu_akun/data_akun.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
 import 'package:page_transition/page_transition.dart';
@@ -10,12 +12,16 @@ import 'package:page_transition/page_transition.dart';
 class MenuAkun extends StatelessWidget {
   final double width;
   final double bg_height = 80;
+  final double bg_ratio = 1.5;
   final double ava_radius = 50;
   final double cam_size = 17;
 
-  const MenuAkun({Key key, this.width}) : super(key: key);
+  final SharedPreferencesHelper helper = SharedPreferencesHelper();
 
-  void _onLogout(BuildContext context) {
+  MenuAkun({Key key, this.width}) : super(key: key);
+
+  _onLogout(BuildContext context) async {
+    await helper.setData(User());
     Navigator.pushReplacement(
       context,
       PageTransition(child: PreLoginPage(), type: PageTransitionType.fade),
@@ -24,8 +30,8 @@ class MenuAkun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: false);
+    // ScreenUtil.init(context,
+    //     designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       width: double.infinity,
       child: Column(
@@ -69,12 +75,12 @@ class MenuAkun extends StatelessWidget {
             margin: EdgeInsets.only(right: 20.w),
             child: CustomButton(
               color: Color(0xFF59981A),
-              width: 120.w,
-              height: 40.h,
+              width: 100.w,
+              height: 30.h,
               text: Text(
                 'Log Out',
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -93,15 +99,15 @@ class MenuAkun extends StatelessWidget {
       {String path, String descTitle, String descSub = '', Color color}) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
       margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
       color: color,
       child: Row(
         children: [
           Image.asset(
             path,
-            width: 40.w,
-            height: 40.h,
+            width: 30.w,
+            height: 30.h,
             fit: BoxFit.fill,
           ),
           SizedBox(width: 20.w),
@@ -111,7 +117,7 @@ class MenuAkun extends StatelessWidget {
               Text(
                 descTitle,
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 12.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),
@@ -120,7 +126,7 @@ class MenuAkun extends StatelessWidget {
                   ? Text(
                       descSub,
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 12.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                       ),
@@ -136,7 +142,7 @@ class MenuAkun extends StatelessWidget {
   Stack buildProfilePict() {
     return Stack(
       children: [
-        Container(height: (2 * bg_height).h),
+        Container(height: bg_ratio * bg_height.h),
         Container(
           height: bg_height.h,
           decoration: BoxDecoration(
@@ -147,21 +153,21 @@ class MenuAkun extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 2 * (bg_height - ava_radius).h,
-          left: width.w / 2 - ava_radius.h,
+          top: bg_ratio * bg_height.h - 2 * ava_radius.h,
+          left: width / 2 - ava_radius.h,
           child: CircleAvatar(
             radius: ava_radius.h,
             backgroundImage: AssetImage(pict_path),
           ),
         ),
         Positioned(
-          left: width.w / 2 + sqrt(cam_size.h * (2 * ava_radius - cam_size).h),
-          top: 2 * bg_height.h - cam_size.h,
+          left: width / 2 + sqrt(cam_size.h * (2 * ava_radius - cam_size).h),
+          top: bg_ratio * bg_height.h - cam_size.h,
           child: GestureDetector(
             onTap: () {},
             child: Icon(
               Icons.camera_alt,
-              size: cam_size,
+              size: cam_size.h,
               color: Colors.black,
             ),
           ),

@@ -9,8 +9,8 @@ class ItemTestimoni extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: false);
+    // ScreenUtil.init(context,
+    //     designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       padding: EdgeInsets.only(bottom: 30.h),
       child: Row(

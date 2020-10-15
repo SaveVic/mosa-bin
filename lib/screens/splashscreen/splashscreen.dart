@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/models/shared_pref.dart';
 import 'package:mosa_bin/models/user.dart';
+import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/intro/intro_page.dart';
-import 'package:mosa_bin/screens/login/login.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'style_splash.dart';
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ? IntroPage()
             : (data.auth_token == null && data.done_intro)
                 ? PreLoginPage()
-                : LoginPage(),
+                : HomePage(),
       ),
     );
   }

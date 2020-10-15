@@ -1,4 +1,6 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 
@@ -7,19 +9,109 @@ class TrashBinPage extends StatefulWidget {
   _TrashBinPageState createState() => _TrashBinPageState();
 }
 
+enum Stage { Bottle, TrashBin }
+
 class _TrashBinPageState extends State<TrashBinPage> {
   TextStyle _normalStyle = TextStyle(
-    fontSize: 16,
+    fontSize: 12.sp,
     color: Colors.black,
   );
   TextStyle _boldStyle = TextStyle(
-    fontSize: 16,
+    fontSize: 12.sp,
     color: Colors.black,
     fontWeight: FontWeight.bold,
   );
 
+  Stage _stage = Stage.Bottle;
+
+  Future _onScanBottle(BuildContext ctx) async {
+    var result = await BarcodeScanner.scan();
+    String res = (result.type == ResultType.Barcode) ? result.rawContent : '';
+    if (res.isEmpty) {
+      Scaffold.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text('Gagal meng-scan botol'),
+        ),
+      );
+      return;
+    }
+    _stage = Stage.TrashBin;
+    _showDialogBottleSuccess(ctx);
+  }
+
+  void _showDialogBottleSuccess(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      child: AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Silahkan masukkan sampah botol\nmu ke dalam MOSA Smart Bin !',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
+            Image.asset(
+              'assets/images/icon_akun/litter.png',
+              width: 100.w,
+            ),
+            // Icon(
+            //   Icons.check,
+            //   color: Color(0xFFADDB31),
+            //   size: 100.w,
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future _onScanTrash(BuildContext ctx) async {
+    var result = await BarcodeScanner.scan();
+    String res = (result.type == ResultType.Barcode) ? result.rawContent : '';
+    if (res.isEmpty) {
+      Scaffold.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text('Gagal meng-scan trash bin'),
+        ),
+      );
+      return;
+    }
+    _stage = Stage.Bottle;
+    _showDialogTrashSuccess(ctx);
+  }
+
+  void _showDialogTrashSuccess(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      child: AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Selamat Poin Kamu Telah Berhasil\ndi Tambahkan !',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
+            // Image.asset(
+            //   'assets/images/icon_akun/litter.png',
+            //   width: 100.w,
+            // ),
+            Icon(
+              Icons.check,
+              color: Color(0xFFADDB31),
+              size: 100.w,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(360, 640), allowFontScaling: false);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -36,7 +128,7 @@ class _TrashBinPageState extends State<TrashBinPage> {
         title: Text(
           'Mosa Smart Bin',
           style: TextStyle(
-            fontSize: 14.0,
+            fontSize: 14.0.sp,
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
@@ -49,37 +141,47 @@ class _TrashBinPageState extends State<TrashBinPage> {
         },
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(30, 50, 30, 0),
+        padding: EdgeInsets.fromLTRB(60.w, 40.h, 60.w, 0),
         width: double.infinity,
         child: Column(
           children: [
             Text(
-              'Silahkan scan barcode yang ada pada\nsampah botolmu !',
+              (_stage == Stage.Bottle)
+                  ? 'Silahkan scan barcode yang ada pada\nsampah botolmu !'
+                  : 'Silahkan scan barcode yang ada pada\nMOSA Smart Bin',
               textAlign: TextAlign.center,
               style: _boldStyle,
             ),
-            SizedBox(height: 40),
-            Text('Botol Ades Rp. 80', style: _normalStyle),
-            Text('Botol Non Ades Rp. 50', style: _normalStyle),
-            SizedBox(height: 50),
+            SizedBox(height: (_stage == Stage.Bottle) ? 20.h : 0),
+            (_stage == Stage.Bottle)
+                ? Text('Botol Ades Rp. 80', style: _normalStyle)
+                : Container(),
+            (_stage == Stage.Bottle)
+                ? Text('Botol Non Ades Rp. 50', style: _normalStyle)
+                : Container(),
+            SizedBox(height: 30.h),
             Icon(
               Icons.qr_code_scanner,
-              size: 250,
+              size: 190.w,
               color: Colors.black.withOpacity(0.5),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30.h),
             CustomButton(
               color: Color(0xFFF9B915),
-              width: 140,
-              height: 45,
+              width: 130.w,
+              height: 40.h,
               text: Text(
                 'Scan Barcode',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14.sp,
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                (_stage == Stage.Bottle)
+                    ? _onScanBottle(context)
+                    : _onScanTrash(context);
+              },
             ),
           ],
         ),

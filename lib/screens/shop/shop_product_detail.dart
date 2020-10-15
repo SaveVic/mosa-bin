@@ -11,7 +11,7 @@ class ProductDetailPage extends StatefulWidget {
   final Map prod;
   final double prodWidth;
 
-  const ProductDetailPage({Key key, @required this.prod, this.prodWidth = 200})
+  const ProductDetailPage({Key key, @required this.prod, this.prodWidth = 150})
       : super(key: key);
 
   @override
@@ -31,6 +31,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ],
     color: Colors.white,
   );
+
+  final int _ratioInfo = 4;
+  final int _ratioAction = 3;
 
   int counter = 0;
 
@@ -92,18 +95,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
+        // padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
         child: ListView(
           children: [
             Container(
               width: double.infinity,
               decoration: _outerBox,
               padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-              margin: EdgeInsets.only(bottom: 20.h),
+              margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 15.h),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   buildProductInfo(),
+                  SizedBox(width: 20.w),
                   buildProductAction(),
                 ],
               ),
@@ -111,8 +115,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Container(
               width: double.infinity,
               decoration: _outerBox,
-              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
-              margin: EdgeInsets.only(bottom: 20.h),
+              padding: EdgeInsets.fromLTRB(15.w, 20.h, 20.w, 0),
+              margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 20.h),
               child: Column(
                 children: List<Widget>.generate(
                   testi.length,
@@ -133,26 +137,20 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildProductAction() {
-    return Container(
+  Widget buildProductAction() {
+    return Expanded(
+      flex: _ratioAction,
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                height: 30.h,
-                width: 30.w,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20)),
-                child: GestureDetector(
-                  onTap: decrementCounter,
-                  child: Icon(
-                    Icons.remove_circle,
-                    color: Colors.white,
-                    size: 30.w,
-                  ),
+              GestureDetector(
+                onTap: decrementCounter,
+                child: Icon(
+                  Icons.remove_circle_outline,
+                  color: Colors.grey,
+                  size: 30.w,
                 ),
               ),
               Container(
@@ -160,47 +158,41 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Text(
                   '$counter',
                   style:
-                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              Container(
-                height: 30.h,
-                width: 30.w,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20)),
-                child: GestureDetector(
-                  onTap: incrementCounter,
-                  child: Icon(
-                    Icons.add_circle,
-                    color: Colors.white,
-                    size: 30.w,
-                  ),
+              GestureDetector(
+                onTap: incrementCounter,
+                child: Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.grey,
+                  size: 30.w,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30.h),
+          SizedBox(height: 10.h),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
                 onTap: addToCart,
                 child: Icon(
                   Icons.add_shopping_cart,
                   color: Color(0xFF6A9923),
-                  size: 50.w,
+                  size: 30.h,
                 ),
               ),
-              SizedBox(width: 30.w),
               CustomButton(
-                height: 50.h,
-                width: 100.w,
+                height: 30.h,
+                width: 80.w,
                 color: Color(0xFFF9B915),
                 text: Text(
                   'Beli Sekarang',
                   style: TextStyle(
                     fontSize: 9.sp,
                     color: Colors.white,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 onPressed: toInvoicePage,
@@ -212,23 +204,27 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildProductInfo() {
-    return Container(
-      width: widget.prodWidth.w,
+  Widget buildProductInfo() {
+    return Expanded(
+      flex: _ratioInfo,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: widget.prodWidth.w,
-            height: widget.prodWidth.w,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.prod['img']),
-                fit: BoxFit.fill,
-              ),
-            ),
+          Image.asset(
+            widget.prod['img'],
+            width: double.infinity,
           ),
-          SizedBox(height: 10.h),
+          // Container(
+          //   width: widget.prodWidth.w,
+          //   height: widget.prodWidth.w,
+          //   decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //       image: AssetImage(widget.prod['img']),
+          //       fit: BoxFit.fill,
+          //     ),
+          //   ),
+          // ),
+          SizedBox(height: 15.h),
           Text(
             widget.prod['name'],
             style: TextStyle(

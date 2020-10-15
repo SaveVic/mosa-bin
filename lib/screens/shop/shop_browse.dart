@@ -19,8 +19,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
   List<Map> _displayList = [];
   bool _isLoad = false;
 
-  Future _onSearch(BuildContext context) async {
-    _hideKey(context);
+  Future _onSearch() async {
     if (_controllerQuery.text.isEmpty) {
       setState(() {
         _isLoad = false;
@@ -38,7 +37,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
     }
   }
 
-  Widget _buildCategory(BuildContext context) {
+  Widget _buildCategory() {
     return Expanded(
       child: ListView.builder(
         itemCount: category.length,
@@ -49,7 +48,7 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
               _controllerQuery.value = TextEditingValue(
                 text: _newValue,
               );
-              _onSearch(context);
+              _onSearch();
             },
             child: ItemCategory(
               path: category[id]['p'],
@@ -103,18 +102,13 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody() {
     if (_isLoad)
       return _buildLoading();
     else if (_controllerQuery.text.isEmpty)
-      return _buildCategory(context);
+      return _buildCategory();
     else
       return _buildProducts();
-  }
-
-  void _hideKey(BuildContext context) {
-    FocusScopeNode focus = FocusScope.of(context);
-    if (focus.hasPrimaryFocus) focus.unfocus();
   }
 
   @override
@@ -156,13 +150,13 @@ class _ShopBrowsePageState extends State<ShopBrowsePage> {
               placeholder: 'Cari Produk atau Toko Organik',
               suffixIcon: Icons.search,
               onSuffixTap: () {
-                _onSearch(context);
+                _onSearch();
               },
               radius: 10.w,
               shadow: false,
             ),
             SizedBox(height: 10.h),
-            _buildBody(context),
+            _buildBody(),
           ],
         ),
       ),

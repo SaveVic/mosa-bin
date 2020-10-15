@@ -10,9 +10,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My MOSA',
-      home: SplashScreen(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode focus = FocusScope.of(context);
+        print(focus.hasPrimaryFocus.toString());
+        if (!focus.hasPrimaryFocus && focus.focusedChild != null)
+          focus.focusedChild.unfocus();
+      },
+      child: MaterialApp(
+        title: 'My MOSA',
+        home: SplashScreen(),
+      ),
     );
   }
 }

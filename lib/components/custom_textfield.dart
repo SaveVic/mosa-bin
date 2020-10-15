@@ -83,7 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       hintText: widget.placeholder,
                       hintStyle: TextStyle(
                         color: Color(0xFFC4C4C4),
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                       ),
                     ),
                   ),

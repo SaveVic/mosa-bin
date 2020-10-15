@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ItemCategory extends StatelessWidget {
   final String path;
   final String label;
-  final double image_height = 150;
-  final double label_cover_height = 120;
+  final double image_height = 120;
+  final double label_cover_height = 90;
   final double label_size = 12;
 
   const ItemCategory({Key key, @required this.path, @required this.label})
@@ -13,8 +13,8 @@ class ItemCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: false);
+    // ScreenUtil.init(context,
+    //     designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(

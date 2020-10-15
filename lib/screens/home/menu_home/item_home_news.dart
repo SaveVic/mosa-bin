@@ -21,8 +21,8 @@ class ItemHomeNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: false);
+    // ScreenUtil.init(context,
+    //     designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: Column(
@@ -30,16 +30,18 @@ class ItemHomeNews extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: Container(
+            child: Image.asset(
+              path,
               height: height,
-              width: width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(path),
-                  fit: BoxFit.fill,
-                ),
-              ),
             ),
+            // child: Container(
+            //   height: height,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: AssetImage(path),
+            //     ),
+            //   ),
+            // ),
           ),
           SizedBox(height: 10.h),
           Text(
