@@ -60,3 +60,62 @@ const List<Map> dataMarker = [
     ],
   }
 ];
+
+class DataMarker {
+  String id;
+  double lat;
+  double long;
+  String name;
+  String region;
+  String pj;
+  String contact;
+  String address;
+  List<TrashInfo> trashInfo;
+
+  // this.id,
+  // this.lat,
+  // this.long,
+  // this.name,
+  // this.region,
+  // this.pj,
+  // this.contact,
+  // this.address,
+  // this.trashInfo,
+
+  DataMarker([
+    this.id,
+    this.lat,
+    this.long,
+    this.name,
+    this.region,
+    this.pj,
+    this.contact,
+    this.address,
+    this.trashInfo,
+  ]);
+
+  DataMarker.fromMap(Map m) {
+    this.id = m['id'];
+    this.lat = m['lat'];
+    this.long = m['long'];
+    this.name = m['name'];
+    this.region = m['daerah'];
+    this.pj = m['pj'];
+    this.contact = m['kontak'];
+    this.address = m['alamat'];
+    this.trashInfo = List<TrashInfo>.generate(
+        m['sampah'].length, (i) => TrashInfo.fromMap(m['sampah'][i]));
+  }
+}
+
+class TrashInfo {
+  String type;
+  int price;
+
+  TrashInfo(this.type, this.price);
+
+  TrashInfo.fromMap(Map m) {
+    this.type = m['jenis'];
+    this.price = m['harga'];
+  }
+}

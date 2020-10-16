@@ -63,7 +63,7 @@ class _IntroPageState extends State<IntroPage> {
           ),
           pathImage: introList[i].image,
           widthImage: imageWidth.w,
-          heightImage: imageHeight.h,
+          // heightImage: imageHeight.h,
           description: introList[i].description,
           styleDescription: TextStyle(
             color: descColor,

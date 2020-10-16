@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/home.dart';
@@ -30,13 +31,27 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _errorDate = false;
 
   bool _validate() {
-    if (_controllerUser.text.isNotEmpty &&
-        _controllerPass.text.isNotEmpty &&
-        _controllerRePass.text.isNotEmpty &&
-        _controllerPass.text == _controllerRePass.text &&
-        _controllerEmail.text.isNotEmpty &&
-        DateParser.validateDisplay(_controllerDate.text)) return true;
-    return false;
+    if (_controllerUser.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Username tidak boleh kosong');
+      return false;
+    }
+    if (_controllerPass.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Password tidak boleh kosong');
+      return false;
+    }
+    if (_controllerRePass.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Re-Password tidak boleh kosong');
+      return false;
+    }
+    if (_controllerPass.text != _controllerRePass.text) {
+      Fluttertoast.showToast(msg: 'Password harus sama');
+      return false;
+    }
+    if (_controllerEmail.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Email tidak boleh kosong');
+      return false;
+    }
+    return true;
   }
 
   void _toLogin(BuildContext context) {

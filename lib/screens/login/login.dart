@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/models/shared_pref.dart';
@@ -32,30 +33,22 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  _onLogin(BuildContext context) async {
+  _onLogin(BuildContext ctx) async {
     if (_validate()) {
       if (_controllerUser.text == username &&
           _controllerPass.text == password) {
         await helper.setData(User('admin', 'admin', true));
         Navigator.pushReplacement(
-          context,
+          ctx,
           PageTransition(
             type: PageTransitionType.fade,
             child: HomePage(),
           ),
         );
       } else
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Username atau Password salah'),
-          ),
-        );
+        Fluttertoast.showToast(msg: 'Username atau Password salah');
     } else {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Username dan Password tidak boleh kosong'),
-        ),
-      );
+      Fluttertoast.showToast(msg: 'Username dan Password tidak boleh kosong');
       setState(() {
         _errorUser = _controllerUser.text.isEmpty;
         _errorPass = _controllerPass.text.isEmpty;

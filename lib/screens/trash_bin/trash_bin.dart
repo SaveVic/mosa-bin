@@ -1,6 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 
@@ -28,15 +29,13 @@ class _TrashBinPageState extends State<TrashBinPage> {
     var result = await BarcodeScanner.scan();
     String res = (result.type == ResultType.Barcode) ? result.rawContent : '';
     if (res.isEmpty) {
-      Scaffold.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text('Gagal meng-scan botol'),
-        ),
-      );
+      Fluttertoast.showToast(msg: 'Gagal meng-scan botol');
       return;
     }
-    _stage = Stage.TrashBin;
     _showDialogBottleSuccess(ctx);
+    setState(() {
+      _stage = Stage.TrashBin;
+    });
   }
 
   void _showDialogBottleSuccess(BuildContext ctx) {
@@ -70,15 +69,13 @@ class _TrashBinPageState extends State<TrashBinPage> {
     var result = await BarcodeScanner.scan();
     String res = (result.type == ResultType.Barcode) ? result.rawContent : '';
     if (res.isEmpty) {
-      Scaffold.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text('Gagal meng-scan trash bin'),
-        ),
-      );
+      Fluttertoast.showToast(msg: 'Gagal meng-scan trash bin');
       return;
     }
-    _stage = Stage.Bottle;
     _showDialogTrashSuccess(ctx);
+    setState(() {
+      _stage = Stage.Bottle;
+    });
   }
 
   void _showDialogTrashSuccess(BuildContext ctx) {
