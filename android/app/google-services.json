@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "115949444770",
+    "firebase_url": "https://my-mosa-d295f.firebaseio.com",
+    "project_id": "my-mosa-d295f",
+    "storage_bucket": "my-mosa-d295f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115949444770:android:52971526b8f497653a41fb",
+        "android_client_info": {
+          "package_name": "com.example.mosa_bin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115949444770-3p036nkiqbgpmia1a4rh17l6pbs8fgv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvDjpPOoF1SM5Z6_RW2AxvIFkhv-8oE0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115949444770-3p036nkiqbgpmia1a4rh17l6pbs8fgv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

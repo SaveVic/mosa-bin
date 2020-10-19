@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           focus.focusedChild.unfocus();
       },
       child: MaterialApp(
-        title: 'My MOSA',
+        title: 'MY MOSA',
         home: SplashScreen(),
       ),
     );

@@ -4,11 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
-import 'package:mosa_bin/models/shared_pref.dart';
-import 'package:mosa_bin/models/user.dart';
 import 'package:mosa_bin/screens/home/home.dart';
-import 'package:mosa_bin/screens/login/data_login.dart';
 import 'package:mosa_bin/screens/register/register.dart';
+import 'package:mosa_bin/services/service_login.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'style_login.dart';
@@ -22,22 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerUser = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
 
-  SharedPreferencesHelper helper = SharedPreferencesHelper();
-
   bool _errorUser = false;
   bool _errorPass = false;
 
-  bool _validate() {
-    if (_controllerUser.text.isNotEmpty && _controllerPass.text.isNotEmpty)
-      return true;
-    return false;
-  }
-
-  _onLogin(BuildContext ctx) async {
-    if (_validate()) {
-      if (_controllerUser.text == username &&
-          _controllerPass.text == password) {
-        await helper.setData(User('admin', 'admin', true));
+  void _onLogin(BuildContext ctx) {
+    var serv = ServiceLogin(
+      () {
         Navigator.pushReplacement(
           ctx,
           PageTransition(
@@ -45,15 +33,20 @@ class _LoginPageState extends State<LoginPage> {
             child: HomePage(),
           ),
         );
-      } else
-        Fluttertoast.showToast(msg: 'Username atau Password salah');
-    } else {
-      Fluttertoast.showToast(msg: 'Username dan Password tidak boleh kosong');
-      setState(() {
-        _errorUser = _controllerUser.text.isEmpty;
-        _errorPass = _controllerPass.text.isEmpty;
-      });
-    }
+      },
+    );
+    LoginValidatorData validator = serv.validator(
+      _controllerUser.text,
+      _controllerPass.text,
+    );
+    setState(() {
+      _errorUser = !validator.validUsername;
+      _errorPass = !validator.validPassword;
+    });
+    if (validator.result)
+      serv.loginWithDatabase(_controllerUser.text, _controllerPass.text);
+    else
+      Fluttertoast.showToast(msg: validator.message);
   }
 
   void _toRegister(BuildContext context) {

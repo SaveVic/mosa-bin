@@ -25,15 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _checkToken() async {
     await Future.delayed(Duration(milliseconds: 1000));
-    User data = await helper.getData();
+    UserData data = await helper.getData();
 
     Navigator.pushReplacement(
       context,
       PageTransition(
         type: PageTransitionType.fade,
-        child: (data.auth_token == null && !data.done_intro)
+        child: (data.username == null && !data.done_intro)
             ? IntroPage()
-            : (data.auth_token == null && data.done_intro)
+            : (data.username == null && data.done_intro)
                 ? PreLoginPage()
                 : HomePage(),
       ),

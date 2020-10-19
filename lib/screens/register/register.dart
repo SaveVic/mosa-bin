@@ -8,6 +8,7 @@ import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/login/login.dart';
 import 'package:mosa_bin/screens/register/date_parser.dart';
+import 'package:mosa_bin/services/service_register.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../login/style_login.dart';
@@ -29,30 +30,6 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _errorRePass = false;
   bool _errorEmail = false;
   bool _errorDate = false;
-
-  bool _validate() {
-    if (_controllerUser.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Username tidak boleh kosong');
-      return false;
-    }
-    if (_controllerPass.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Password tidak boleh kosong');
-      return false;
-    }
-    if (_controllerRePass.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Re-Password tidak boleh kosong');
-      return false;
-    }
-    if (_controllerPass.text != _controllerRePass.text) {
-      Fluttertoast.showToast(msg: 'Password harus sama');
-      return false;
-    }
-    if (_controllerEmail.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Email tidak boleh kosong');
-      return false;
-    }
-    return true;
-  }
 
   void _toLogin(BuildContext context) {
     Navigator.pushReplacement(
@@ -88,27 +65,42 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _onRegister(BuildContext context) {
-    if (_validate()) {
-      //register
-      Navigator.pushReplacement(
-        context,
-        PageTransition(
-          type: PageTransitionType.fade,
-          child: HomePage(),
-        ),
+  void _onRegister(BuildContext ctx) async {
+    var serv = ServiceRegister(
+      () {
+        Navigator.pushReplacement(
+          ctx,
+          PageTransition(
+            type: PageTransitionType.fade,
+            child: HomePage(),
+          ),
+        );
+      },
+    );
+    RegisterValidatorData validator = serv.validator(
+      _controllerUser.text,
+      _controllerPass.text,
+      _controllerRePass.text,
+      _controllerEmail.text,
+      _controllerDate.text,
+    );
+    setState(() {
+      _errorUser = validator.validUsername;
+      _errorPass = validator.validPassword;
+      _errorRePass = validator.validRePassword;
+      _errorEmail = validator.validEmail;
+      _errorDate = validator.validBirthDate;
+    });
+    if (validator.result)
+      serv.registerWithDatabase(
+        _controllerUser.text,
+        _controllerPass.text,
+        _controllerRePass.text,
+        _controllerEmail.text,
+        _controllerDate.text,
       );
-    } else {
-      setState(() {
-        _errorUser = _controllerUser.text.isEmpty;
-        _errorPass = _controllerPass.text.isEmpty ||
-            _controllerPass.text != _controllerRePass.text;
-        _errorRePass = _controllerRePass.text.isEmpty ||
-            _controllerPass.text != _controllerRePass.text;
-        _errorEmail = _controllerEmail.text.isEmpty;
-        _errorDate = !DateParser.validateDisplay(_controllerDate.text);
-      });
-    }
+    else
+      Fluttertoast.showToast(msg: validator.message);
   }
 
   @override

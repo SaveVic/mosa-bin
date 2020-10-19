@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemHomeMain extends StatelessWidget {
   final String path;
-  final double size;
   final Color color;
   final String descText;
   final Color descColor;
@@ -12,7 +11,6 @@ class ItemHomeMain extends StatelessWidget {
   const ItemHomeMain(
       {Key key,
       @required this.path,
-      this.size = 50,
       this.color = Colors.blue,
       this.descText = '',
       this.descColor = Colors.black,
@@ -21,27 +19,24 @@ class ItemHomeMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil.init(context,
-    //     designSize: Size(360, 640), allowFontScaling: false);
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: onPressed,
-            child: Container(
-              alignment: Alignment.center,
-              width: size,
-              height: size,
-              decoration: ShapeDecoration(
-                shape: CircleBorder(),
-                color: color,
-              ),
-              child: Image.asset(
-                path,
-                width: size * 0.60,
-                height: size * 0.60,
+          Expanded(
+            child: GestureDetector(
+              onTap: onPressed,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: ShapeDecoration(
+                  shape: CircleBorder(),
+                  color: color,
+                ),
+                child: FractionallySizedBox(
+                  widthFactor: 0.6,
+                  heightFactor: 0.6,
+                  child: Image.asset(path),
+                ),
               ),
             ),
           ),

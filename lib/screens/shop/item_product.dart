@@ -6,6 +6,24 @@ class ItemProduct extends StatelessWidget {
 
   const ItemProduct({Key key, @required this.prod}) : super(key: key);
 
+  Widget buildRating(int rating) {
+    if (rating == null || rating < 0 || rating > 5) rating = 0;
+    List<bool> active = List<bool>.generate(5, (i) => i < rating);
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List<Widget>.generate(
+          active.length,
+          (i) => Icon(
+            Icons.star,
+            size: 10.h,
+            color: active[i] ? Colors.orange : Colors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // ScreenUtil.init(context,
@@ -64,20 +82,21 @@ class ItemProduct extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              Text(
-                '${prod['rating']}',
-                style: TextStyle(
-                  fontSize: 9.sp,
-                  color: Colors.green,
-                ),
-              ),
+              buildRating(prod['rating']),
+              // Text(
+              //   '${prod['rating']}',
+              //   style: TextStyle(
+              //     fontSize: 9.sp,
+              //     color: Colors.green,
+              //   ),
+              // ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${prod['point']} poin',
+                '${prod['stock']} tersedia',
                 style: TextStyle(
                   fontSize: 9.sp,
                   color: Colors.black,

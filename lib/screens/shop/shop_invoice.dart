@@ -53,11 +53,6 @@ class _InvoicePageState extends State<InvoicePage> {
           ),
         ),
       );
-    else {
-      setState(() {
-        _errorAddress = true;
-      });
-    }
   }
 
   @override
@@ -134,6 +129,7 @@ class _InvoicePageState extends State<InvoicePage> {
               'Bank Transfer',
               'Menggunakan Poin',
             ],
+            picked: 'Bank Transfer',
             onSelected: (String selected) {},
           ),
           Container(
@@ -151,6 +147,9 @@ class _InvoicePageState extends State<InvoicePage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  _errorAddress = _controllerAddress.text.isEmpty;
+                });
                 _onProcessTap(context);
               },
             ),

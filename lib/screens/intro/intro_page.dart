@@ -35,7 +35,7 @@ class _IntroPageState extends State<IntroPage> {
   Future onDonePress() async {
     SharedPreferencesHelper helper = SharedPreferencesHelper();
     await helper.setData(
-      User(null, null, true),
+      UserData(null, null, true),
     );
     Navigator.pushReplacement(
       context,

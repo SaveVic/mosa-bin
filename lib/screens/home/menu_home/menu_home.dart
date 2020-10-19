@@ -36,6 +36,7 @@ class MenuHome extends StatelessWidget {
   }
 
   void _navigateMain(BuildContext ctx, String page) async {
+    if (page == 'article') return;
     int res = await Navigator.push(
           ctx,
           PageTransition(
@@ -44,16 +45,16 @@ class MenuHome extends StatelessWidget {
                 ? PickUpPage()
                 : (page == 'trash')
                     ? TrashBinPage()
-                    : (page == 'article')
-                        ? TrashBinPage() // Article Page
-                        : ShopBrowsePage(),
+                    : (page == 'shop')
+                        ? ShopBrowsePage() // Article Page
+                        : null,
           ),
         ) ??
         0;
     onSetState(res);
   }
 
-  Container buildNewsFeed(double height, double width) {
+  Widget buildNewsFeed(double height, double width) {
     return Container(
       color: newsColor,
       padding: EdgeInsets.symmetric(vertical: 15),
@@ -72,8 +73,7 @@ class MenuHome extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10.h),
-          Container(
-            height: 140.h,
+          Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemsNews.length,
@@ -94,15 +94,14 @@ class MenuHome extends StatelessWidget {
     );
   }
 
-  Container buildHomeItem(BuildContext context, double height) {
-    return Container(
-      width: double.infinity,
+  Widget buildHomeItem(BuildContext context, double height) {
+    return Expanded(
       child: GridView.count(
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         shrinkWrap: true,
-        crossAxisSpacing: 70,
-        mainAxisSpacing: 50,
         crossAxisCount: 2,
+        mainAxisSpacing: 20.w,
+        crossAxisSpacing: 20.h,
         children: List<Widget>.generate(
           itemsMenu.length,
           (i) => ItemHomeMain(
@@ -110,7 +109,6 @@ class MenuHome extends StatelessWidget {
             descText: itemsMenu[i]['label'] ?? '',
             descColor: Color(0xFF595454),
             color: baseColor,
-            size: 70.w,
             onPressed: () {
               _navigateMain(context, itemsMenu[i]['nav'] ?? '');
             },
