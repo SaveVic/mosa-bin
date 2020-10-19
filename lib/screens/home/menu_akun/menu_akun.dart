@@ -16,6 +16,7 @@ import 'package:mosa_bin/screens/home/menu_akun/data_akun.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
 import 'package:mosa_bin/services/service_account.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MenuAkun extends StatefulWidget {
   final double width;
@@ -114,7 +115,24 @@ class _MenuAkunState extends State<MenuAkun> {
     return t;
   }
 
-  _onAvaEdit(BuildContext ctx) async {
+  Future<void> selectImage(ImageSource source) async {
+    PickedFile image =
+        await ImagePicker().getImage(source: source, imageQuality: 70);
+    if (image != null && image.path != null) {
+      final String path = (await getApplicationDocumentsDirectory()).path;
+      print('$path/${user.username}${user.id}.png');
+      final File newFile =
+          await File(image.path).copy('$path/${user.username}${user.id}.png');
+      print(newFile.path);
+      await serv.changeAva(user, newFile.path);
+      setState(() {
+        _file = newFile;
+      });
+      // Fluttertoast.showToast(msg: 'Ganti foto ${(t) ? 'berhasil' : 'gagal'}');
+    }
+  }
+
+  Future<void> _onAvaEdit(BuildContext ctx) async {
     showModalBottomSheet(
       context: ctx,
       builder: (bc) {
@@ -126,16 +144,7 @@ class _MenuAkunState extends State<MenuAkun> {
                   leading: Icon(Icons.photo_library),
                   title: Text('Ambil dari Gallery'),
                   onTap: () async {
-                    PickedFile image = await ImagePicker().getImage(
-                        source: ImageSource.gallery, imageQuality: 70);
-                    if (image != null && image.path != null) {
-                      setState(() {
-                        _file = File(image.path);
-                      });
-                      bool t = await GallerySaver.saveImage(image.path);
-                      Fluttertoast.showToast(
-                          msg: 'Ganti foto ${(t) ? 'berhasil' : 'gagal'}');
-                    }
+                    await selectImage(ImageSource.gallery);
                     Navigator.of(ctx).pop();
                   },
                 ),
@@ -143,16 +152,7 @@ class _MenuAkunState extends State<MenuAkun> {
                   leading: Icon(Icons.photo_camera),
                   title: Text('Ambil dari Kamera'),
                   onTap: () async {
-                    PickedFile image = await ImagePicker()
-                        .getImage(source: ImageSource.camera, imageQuality: 70);
-                    if (image != null && image.path != null) {
-                      setState(() {
-                        _file = File(image.path);
-                      });
-                      bool t = await GallerySaver.saveImage(image.path);
-                      Fluttertoast.showToast(
-                          msg: 'Ganti foto ${(t) ? 'berhasil' : 'gagal'}');
-                    }
+                    await selectImage(ImageSource.camera);
                     Navigator.of(ctx).pop();
                   },
                 ),
@@ -197,6 +197,14 @@ class _MenuAkunState extends State<MenuAkun> {
         PageTransition(child: PreLoginPage(), type: PageTransitionType.fade),
       );
     }
+  }
+
+  Future<File> _initFileAva() async {
+    if (user == null) return null;
+    if (user.fotoPath == null) return null;
+    bool t = await File(user.fotoPath).exists();
+    if (!t) return null;
+    return File(user.fotoPath);
   }
 
   @override
@@ -338,7 +346,36 @@ class _MenuAkunState extends State<MenuAkun> {
     );
   }
 
-  Stack buildProfilePict() {
+  Widget buildAva() {
+    return FutureBuilder<File>(
+      future: _initFileAva(),
+      builder: (ctx, snap) {
+        _file = (snap.hasData) ? snap.data : null;
+        if (_file == null)
+          return Container(
+            width: 2 * ava_radius.h,
+            height: 2 * ava_radius.h,
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+              color: Colors.grey,
+            ),
+            alignment: Alignment.center,
+            child: FractionallySizedBox(
+              widthFactor: 0.5,
+              heightFactor: 0.5,
+              child: Icon(Icons.person, color: Colors.black),
+            ),
+          );
+        else
+          return CircleAvatar(
+            radius: ava_radius.h,
+            backgroundImage: FileImage(_file),
+          );
+      },
+    );
+  }
+
+  Widget buildProfilePict() {
     return Stack(
       children: [
         Container(height: bg_ratio * bg_height.h),
@@ -354,10 +391,7 @@ class _MenuAkunState extends State<MenuAkun> {
         Positioned(
           top: bg_ratio * bg_height.h - 2 * ava_radius.h,
           left: widget.width / 2 - ava_radius.h,
-          child: CircleAvatar(
-            radius: ava_radius.h,
-            backgroundImage: AssetImage(pict_path),
-          ),
+          child: buildAva(),
         ),
         Positioned(
           left: widget.width / 2 +
@@ -365,6 +399,7 @@ class _MenuAkunState extends State<MenuAkun> {
           top: bg_ratio * bg_height.h - cam_size.h,
           child: GestureDetector(
             onTap: () {
+              if (user == null) return;
               _onAvaEdit(context);
             },
             child: Icon(

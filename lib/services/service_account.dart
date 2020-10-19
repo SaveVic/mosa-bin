@@ -20,6 +20,11 @@ class ServiceAccount {
     await dbHelper.updateUser(user);
   }
 
+  Future<void> changeAva(UserDB user, String path) async {
+    user.fotoPath = path;
+    await dbHelper.updateUser(user);
+  }
+
   Future<void> logoutDatabase() async {
     await helper.setData(UserData(null, null, true));
   }
