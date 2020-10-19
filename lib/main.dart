@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         title: 'MY MOSA',
+        debugShowCheckedModeBanner: false,
         home: SplashScreen(),
       ),
     );

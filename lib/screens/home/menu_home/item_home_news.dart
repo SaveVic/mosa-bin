@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ItemHomeNews extends StatelessWidget {
   final String path;
   final double height;
-  final double width;
   final double padding;
   final String title;
   final Color titleColor;
@@ -14,7 +13,6 @@ class ItemHomeNews extends StatelessWidget {
       @required this.path,
       this.height = 100,
       this.title = '',
-      this.width,
       this.titleColor = Colors.black,
       this.padding = 15})
       : super(key: key);
@@ -27,6 +25,7 @@ class ItemHomeNews extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),

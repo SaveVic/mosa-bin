@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mosa_bin/components/custom_button.dart';
+import 'package:mosa_bin/components/custom_loading.dart';
 import 'package:mosa_bin/models/db_user.dart';
 // import 'package:mosa_bin/models/record_user.dart';
 // import 'package:mosa_bin/models/shared_pref.dart';
@@ -28,12 +32,16 @@ class _MenuAkunState extends State<MenuAkun> {
   final double ava_radius = 50;
   final double cam_size = 17;
   final ServiceAccount serv = ServiceAccount();
+  final ImagePicker picker = ImagePicker();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   TextEditingController _controllerName = TextEditingController();
+
   String nickname = '??';
-  double trashWeight = -1;
+  double totalWeight = -1;
   int countBottle = -1;
   int cash = -1;
   UserDB user;
+  File _file;
 
   // Future<UserRecord> _getUserData(BuildContext context) async {
   //   User cur = auth.currentUser;
@@ -67,8 +75,6 @@ class _MenuAkunState extends State<MenuAkun> {
                                 borderSide: BorderSide(color: Colors.black),
                               ),
                             ),
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 5,
                           ),
                         ),
                       ),
@@ -108,14 +114,89 @@ class _MenuAkunState extends State<MenuAkun> {
     return t;
   }
 
+  _onAvaEdit(BuildContext ctx) async {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (bc) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Ambil dari Gallery'),
+                  onTap: () async {
+                    PickedFile image = await ImagePicker().getImage(
+                        source: ImageSource.gallery, imageQuality: 70);
+                    if (image != null && image.path != null) {
+                      setState(() {
+                        _file = File(image.path);
+                      });
+                      bool t = await GallerySaver.saveImage(image.path);
+                      Fluttertoast.showToast(
+                          msg: 'Ganti foto ${(t) ? 'berhasil' : 'gagal'}');
+                    }
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text('Ambil dari Kamera'),
+                  onTap: () async {
+                    PickedFile image = await ImagePicker()
+                        .getImage(source: ImageSource.camera, imageQuality: 70);
+                    if (image != null && image.path != null) {
+                      setState(() {
+                        _file = File(image.path);
+                      });
+                      bool t = await GallerySaver.saveImage(image.path);
+                      Fluttertoast.showToast(
+                          msg: 'Ganti foto ${(t) ? 'berhasil' : 'gagal'}');
+                    }
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    // File image = await ImagePicker().getImage(source: ImageSour)
+  }
+
   Future<void> _onLogout(BuildContext context) async {
-    // await auth.signOut();
-    serv.logoutDatabase(() {
+    bool t = await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Log out'),
+            content: Text('Apakah anda yakin ingin log out?'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('Kembali'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Log out'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+    if (t) {
+      Dialogs.showLoadingDialog(context, _keyLoader);
+      await serv.logoutDatabase();
+      Navigator.of(context).pop();
       Navigator.pushReplacement(
         context,
         PageTransition(child: PreLoginPage(), type: PageTransitionType.fade),
       );
-    });
+    }
   }
 
   @override
@@ -124,7 +205,7 @@ class _MenuAkunState extends State<MenuAkun> {
       future: serv.getAccountInfoDatabase(),
       builder: (_, snap) {
         nickname = (snap.hasData) ? snap.data.nickname : '??';
-        trashWeight = (snap.hasData) ? snap.data.trashWeight : -1;
+        totalWeight = (snap.hasData) ? snap.data.totalWeight : -1;
         countBottle = (snap.hasData) ? snap.data.countBottle : -1;
         cash = (snap.hasData) ? snap.data.cash : -1;
         user = (snap.hasData) ? snap.data : null;
@@ -157,7 +238,7 @@ class _MenuAkunState extends State<MenuAkun> {
                         });
                       }
                     },
-                    child: Icon(Icons.edit, size: 10.w),
+                    child: Icon(Icons.edit, size: 15.h, color: Colors.grey),
                   ),
                 ],
               ),
@@ -166,7 +247,7 @@ class _MenuAkunState extends State<MenuAkun> {
                 path: icon_litter,
                 descTitle: 'Total berat sampah yang di kumpulkan',
                 descSub:
-                    '${(trashWeight >= 0) ? trashWeight : '??'} kg Sampah Organik',
+                    '${(totalWeight >= 0) ? totalWeight : '??'} kg Sampah Organik',
                 color: Color(0xFFADDB31),
               ),
               buildInformation(
@@ -283,7 +364,9 @@ class _MenuAkunState extends State<MenuAkun> {
               sqrt(cam_size.h * (2 * ava_radius - cam_size).h),
           top: bg_ratio * bg_height.h - cam_size.h,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              _onAvaEdit(context);
+            },
             child: Icon(
               Icons.camera_alt,
               size: cam_size.h,

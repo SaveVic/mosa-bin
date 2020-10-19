@@ -19,6 +19,9 @@ class RegisterValidatorData {
   RegisterValidatorData({
     this.validUsername = true,
     this.validPassword = true,
+    this.validRePassword = true,
+    this.validEmail = true,
+    this.validBirthDate = true,
     this.message = '',
     this.result = true,
   });
@@ -29,9 +32,6 @@ class ServiceRegister {
   // final FirebaseFirestore reference = FirebaseFirestore.instance;
   final SharedPreferencesHelper helper = SharedPreferencesHelper();
   final DBHelper dbHelper = DBHelper();
-  final Function onNavigate;
-
-  ServiceRegister(this.onNavigate);
 
   RegisterValidatorData validator(
     String username,
@@ -119,7 +119,7 @@ class ServiceRegister {
   //   await reference.collection('users').doc(uid).set(data);
   // }
 
-  Future<void> registerWithDatabase(
+  Future<bool> registerWithDatabase(
     String username,
     String password,
     String rePassword,
@@ -129,13 +129,13 @@ class ServiceRegister {
     int check = await dbHelper.countUser(username);
     if (check > 0) {
       Fluttertoast.showToast(msg: 'Username sudah dipakai atau tidak valid');
-      return;
+      return false;
     }
     UserDB user = UserDB(username, password, email,
         DateParser.display2saved(birthDate), '-', '', 0, 0, 0);
     await dbHelper.insertUser(user);
     user = await dbHelper.findUser(username);
     await helper.setData(UserData(username, user.id, true));
-    onNavigate();
+    return true;
   }
 }

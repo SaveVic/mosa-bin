@@ -73,7 +73,7 @@ class DBHelper {
   Future<int> authUser(String username, String password) async {
     final Database db = await database;
     List<Map<String, dynamic>> temp = await db.rawQuery(
-        'SELECT COUNT(*) FROM users WHERE username=? AND password=?',
+        'SELECT * FROM users WHERE username=? AND password=?',
         [username, password]);
     return temp.length;
   }
@@ -87,8 +87,8 @@ class DBHelper {
 
   Future<int> countUser(String username) async {
     final Database db = await database;
-    List<Map<String, dynamic>> temp = await db
-        .rawQuery('SELECT COUNT(*) FROM users WHERE username=?', [username]);
+    List<Map<String, dynamic>> temp =
+        await db.rawQuery('SELECT * FROM users WHERE username=?', [username]);
     return temp.length;
   }
 

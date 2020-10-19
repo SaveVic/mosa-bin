@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/custom_button.dart';
+import 'package:mosa_bin/components/custom_loading.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/register/register.dart';
@@ -19,22 +20,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerUser = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   bool _errorUser = false;
   bool _errorPass = false;
 
-  void _onLogin(BuildContext ctx) {
-    var serv = ServiceLogin(
-      () {
-        Navigator.pushReplacement(
-          ctx,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: HomePage(),
-          ),
-        );
-      },
-    );
+  Future<void> _onLogin(BuildContext ctx) async {
+    var serv = ServiceLogin();
     LoginValidatorData validator = serv.validator(
       _controllerUser.text,
       _controllerPass.text,
@@ -43,9 +35,20 @@ class _LoginPageState extends State<LoginPage> {
       _errorUser = !validator.validUsername;
       _errorPass = !validator.validPassword;
     });
-    if (validator.result)
-      serv.loginWithDatabase(_controllerUser.text, _controllerPass.text);
-    else
+    if (validator.result) {
+      Dialogs.showLoadingDialog(context, _keyLoader);
+      bool t = await serv.loginWithDatabase(
+          _controllerUser.text, _controllerPass.text);
+      Navigator.of(context).pop();
+      if (t)
+        Navigator.pushReplacement(
+          ctx,
+          PageTransition(
+            type: PageTransitionType.fade,
+            child: HomePage(),
+          ),
+        );
+    } else
       Fluttertoast.showToast(msg: validator.message);
   }
 

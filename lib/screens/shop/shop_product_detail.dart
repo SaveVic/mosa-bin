@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_button.dart';
 import 'package:mosa_bin/screens/shop/data_testi.dart';
@@ -55,7 +56,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     });
   }
 
-  void addToCart() {}
+  void addToCart() {
+    Fluttertoast.showToast(msg: 'Belum diimplementasikan');
+  }
 
   void toInvoicePage() {
     Navigator.pushReplacement(
@@ -63,6 +66,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       PageTransition(
         child: InvoicePage(),
         type: PageTransitionType.rightToLeft,
+      ),
+    );
+  }
+
+  Widget buildRating(int rating) {
+    if (rating == null || rating < 0 || rating > 5) rating = 0;
+    List<bool> active = List<bool>.generate(5, (i) => i < rating);
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List<Widget>.generate(
+          active.length,
+          (i) => Icon(
+            Icons.star,
+            size: 10.h,
+            color: active[i] ? Colors.orange : Colors.grey,
+          ),
+        ),
       ),
     );
   }
@@ -250,26 +271,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   color: Colors.black,
                 ),
               ),
-              Text(
-                '${widget.prod['rating']}',
-                style: TextStyle(
-                  fontSize: 9.sp,
-                  color: Colors.green,
-                ),
-              ),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  '${widget.prod['point']} poin',
-                  style: TextStyle(
-                    fontSize: 9.sp,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
               Text(
                 '${widget.prod['sold']} terjual',
                 style: TextStyle(
@@ -277,7 +283,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 20.w),
               Text(
                 '${widget.prod['stock']} stok',
                 style: TextStyle(
@@ -285,6 +290,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   color: Colors.black,
                 ),
               ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              buildRating(widget.prod['rating']),
             ],
           ),
         ],

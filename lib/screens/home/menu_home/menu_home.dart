@@ -29,8 +29,9 @@ class MenuHome extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildTopBar(height),
-        buildHomeItem(context, height),
-        buildNewsFeed(height, width),
+        buildHomeUpperItem(context, height),
+        buildHomeLowerItem(context, height),
+        buildNewsFeed(80.h),
       ],
     );
   }
@@ -54,12 +55,14 @@ class MenuHome extends StatelessWidget {
     onSetState(res);
   }
 
-  Widget buildNewsFeed(double height, double width) {
+  Widget buildNewsFeed(double newsHeight) {
     return Container(
       color: newsColor,
       padding: EdgeInsets.symmetric(vertical: 15),
+      width: 360.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: EdgeInsets.only(left: 10.w),
@@ -73,46 +76,138 @@ class MenuHome extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10.h),
-          Expanded(
-            child: ListView.builder(
+          Container(
+            // height: height,
+            child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              itemCount: itemsNews.length,
-              itemBuilder: (ctx, i) {
-                return ItemHomeNews(
-                  path: itemsNews[i]['path'] ?? '',
-                  height: 100.h,
-                  width: 200.w,
-                  padding: 10.w,
-                  title: itemsNews[i]['title'] ?? '',
-                  titleColor: Color(0xFF595454),
-                );
-              },
+              child: Row(
+                children: List<Widget>.generate(
+                  itemsNews.length,
+                  (i) => ItemHomeNews(
+                    path: itemsNews[i]['path'] ?? '',
+                    height: newsHeight,
+                    padding: 10.w,
+                    title: itemsNews[i]['title'] ?? '',
+                    titleColor: Color(0xFF595454),
+                  ),
+                ),
+              ),
             ),
+            // child: ListView.builder(
+            //   scrollDirection: Axis.horizontal,
+            //   itemCount: itemsNews.length,
+            //   itemBuilder: (ctx, i) {
+            //     return ItemHomeNews(
+            //       path: itemsNews[i]['path'] ?? '',
+            //       height: 80.h,
+            //       padding: 10.w,
+            //       title: itemsNews[i]['title'] ?? '',
+            //       titleColor: Color(0xFF595454),
+            //     );
+            //   },
+            // ),
           )
         ],
       ),
     );
   }
 
-  Widget buildHomeItem(BuildContext context, double height) {
+  Widget buildHomeUpperItem(BuildContext context, double height) {
     return Expanded(
-      child: GridView.count(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        mainAxisSpacing: 20.w,
-        crossAxisSpacing: 20.h,
-        children: List<Widget>.generate(
-          itemsMenu.length,
-          (i) => ItemHomeMain(
-            path: itemsMenu[i]['path'] ?? '',
-            descText: itemsMenu[i]['label'] ?? '',
-            descColor: Color(0xFF595454),
-            color: baseColor,
-            onPressed: () {
-              _navigateMain(context, itemsMenu[i]['nav'] ?? '');
-            },
-          ),
+      child: Container(
+        margin: EdgeInsets.only(top: 20.h, bottom: 10.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 180.w,
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 20.h),
+              child: ItemHomeMain(
+                path: itemsMenu[0]['path'] ?? '',
+                descText: itemsMenu[0]['label'] ?? '',
+                descColor: Color(0xFF595454),
+                color: baseColor,
+                onPressed: () {
+                  _navigateMain(context, itemsMenu[0]['nav'] ?? '');
+                },
+              ),
+            ),
+            Container(
+              width: 180.w,
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 20.h),
+              child: ItemHomeMain(
+                path: itemsMenu[1]['path'] ?? '',
+                descText: itemsMenu[1]['label'] ?? '',
+                descColor: Color(0xFF595454),
+                color: baseColor,
+                onPressed: () {
+                  _navigateMain(context, itemsMenu[1]['nav'] ?? '');
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      // child: GridView.count(
+      //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      //   shrinkWrap: true,
+      //   crossAxisCount: 2,
+      //   mainAxisSpacing: 20.w,
+      //   crossAxisSpacing: 20.h,
+      //   children: List<Widget>.generate(
+      //     itemsMenu.length,
+      //     (i) => ItemHomeMain(
+      //       path: itemsMenu[i]['path'] ?? '',
+      //       descText: itemsMenu[i]['label'] ?? '',
+      //       descColor: Color(0xFF595454),
+      //       color: baseColor,
+      //       onPressed: () {
+      //         _navigateMain(context, itemsMenu[i]['nav'] ?? '');
+      //       },
+      //     ),
+      //   ),
+      // ),
+    );
+  }
+
+  Widget buildHomeLowerItem(BuildContext context, double height) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(top: 10.h, bottom: 20.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 180.w,
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 20.h),
+              child: ItemHomeMain(
+                path: itemsMenu[2]['path'] ?? '',
+                descText: itemsMenu[2]['label'] ?? '',
+                descColor: Color(0xFF595454),
+                color: baseColor,
+                onPressed: () {
+                  _navigateMain(context, itemsMenu[2]['nav'] ?? '');
+                },
+              ),
+            ),
+            Container(
+              width: 180.w,
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 20.h),
+              child: ItemHomeMain(
+                path: itemsMenu[3]['path'] ?? '',
+                descText: itemsMenu[3]['label'] ?? '',
+                descColor: Color(0xFF595454),
+                color: baseColor,
+                onPressed: () {
+                  _navigateMain(context, itemsMenu[3]['nav'] ?? '');
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

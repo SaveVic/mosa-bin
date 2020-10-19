@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/custom_button.dart';
+import 'package:mosa_bin/components/custom_loading.dart';
 import 'package:mosa_bin/components/custom_textfield.dart';
 import 'package:mosa_bin/screens/home/home.dart';
 import 'package:mosa_bin/screens/login/login.dart';
@@ -24,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _controllerRePass = TextEditingController();
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerDate = TextEditingController();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   bool _errorUser = false;
   bool _errorPass = false;
@@ -66,17 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _onRegister(BuildContext ctx) async {
-    var serv = ServiceRegister(
-      () {
-        Navigator.pushReplacement(
-          ctx,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: HomePage(),
-          ),
-        );
-      },
-    );
+    var serv = ServiceRegister();
     RegisterValidatorData validator = serv.validator(
       _controllerUser.text,
       _controllerPass.text,
@@ -85,21 +77,31 @@ class _RegisterPageState extends State<RegisterPage> {
       _controllerDate.text,
     );
     setState(() {
-      _errorUser = validator.validUsername;
-      _errorPass = validator.validPassword;
-      _errorRePass = validator.validRePassword;
-      _errorEmail = validator.validEmail;
-      _errorDate = validator.validBirthDate;
+      _errorUser = !validator.validUsername;
+      _errorPass = !validator.validPassword;
+      _errorRePass = !validator.validRePassword;
+      _errorEmail = !validator.validEmail;
+      _errorDate = !validator.validBirthDate;
     });
-    if (validator.result)
-      serv.registerWithDatabase(
+    if (validator.result) {
+      Dialogs.showLoadingDialog(context, _keyLoader);
+      bool t = await serv.registerWithDatabase(
         _controllerUser.text,
         _controllerPass.text,
         _controllerRePass.text,
         _controllerEmail.text,
         _controllerDate.text,
       );
-    else
+      Navigator.of(context).pop();
+      if (t)
+        Navigator.pushReplacement(
+          ctx,
+          PageTransition(
+            type: PageTransitionType.fade,
+            child: HomePage(),
+          ),
+        );
+    } else
       Fluttertoast.showToast(msg: validator.message);
   }
 

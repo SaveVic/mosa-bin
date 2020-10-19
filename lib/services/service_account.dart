@@ -20,8 +20,7 @@ class ServiceAccount {
     await dbHelper.updateUser(user);
   }
 
-  Future<void> logoutDatabase(Function onNavigate) async {
+  Future<void> logoutDatabase() async {
     await helper.setData(UserData(null, null, true));
-    onNavigate();
   }
 }

@@ -31,9 +31,9 @@ class _InvoicePageState extends State<InvoicePage> {
     return false;
   }
 
-  void _onProcessTap(BuildContext ctx) {
-    if (_validate())
-      showDialog(
+  void _onProcessTap(BuildContext ctx) async {
+    if (_validate()) {
+      await showDialog(
         context: ctx,
         child: AlertDialog(
           content: Column(
@@ -53,6 +53,8 @@ class _InvoicePageState extends State<InvoicePage> {
           ),
         ),
       );
+      Navigator.pop(context, 0);
+    }
   }
 
   @override

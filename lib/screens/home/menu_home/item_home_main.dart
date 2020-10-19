@@ -23,20 +23,20 @@ class ItemHomeMain extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: onPressed,
-              child: Container(
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: color,
-                ),
-                child: FractionallySizedBox(
-                  widthFactor: 0.6,
-                  heightFactor: 0.6,
-                  child: Image.asset(path),
-                ),
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              width: 50.h,
+              height: 50.h,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                shape: CircleBorder(),
+                color: color,
+              ),
+              child: FractionallySizedBox(
+                widthFactor: 0.6,
+                heightFactor: 0.6,
+                child: Image.asset(path),
               ),
             ),
           ),

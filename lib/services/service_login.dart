@@ -23,9 +23,6 @@ class ServiceLogin {
   // final FirebaseAuth auth = FirebaseAuth.instance;
   final SharedPreferencesHelper helper = SharedPreferencesHelper();
   final DBHelper dbHelper = DBHelper();
-  final Function onNavigate;
-
-  ServiceLogin(this.onNavigate);
 
   LoginValidatorData validator(String username, String password) {
     LoginValidatorData data = LoginValidatorData();
@@ -57,14 +54,15 @@ class ServiceLogin {
   //   }
   // }
 
-  Future<void> loginWithDatabase(String username, String password) async {
+  Future<bool> loginWithDatabase(String username, String password) async {
     int temp = await dbHelper.authUser(username, password);
-    if (temp <= 0)
+    if (temp <= 0) {
       Fluttertoast.showToast(msg: 'Username atau Password salah');
-    else {
+      return false;
+    } else {
       UserDB user = await dbHelper.findUser(username);
       await helper.setData(UserData(username, user.id, true));
-      onNavigate();
+      return true;
     }
   }
 }

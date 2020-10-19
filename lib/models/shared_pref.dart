@@ -8,7 +8,7 @@ class SharedPreferencesHelper {
   Future<UserData> getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringData = prefs.getString(_kData) ?? '';
-    UserData data = UserData();
+    UserData data = UserData(null, null);
     if (stringData.isEmpty) return data;
     try {
       data = UserData.fromMap(jsonDecode(stringData));

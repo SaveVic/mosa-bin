@@ -31,7 +31,8 @@ class _PickUpPageState extends State<PickUpPage> {
 
   static const LatLng _center = const LatLng(-7.7811505, 110.3791267);
   bool _showInfo = false;
-  LocationRecord _dataShowed = LocationRecord.fromMap(null);
+  LocationRecord _dataShowed =
+      LocationRecord.fromMap({'nama': 'Lokasi ??', 'lat': -6.0, 'long': 110.0});
 
   @override
   void initState() {
@@ -147,6 +148,7 @@ class _PickUpPageState extends State<PickUpPage> {
                               ),
                             ),
                             keyboardType: TextInputType.multiline,
+                            minLines: 1,
                             maxLines: 5,
                           ),
                         ),

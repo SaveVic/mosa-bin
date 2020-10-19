@@ -82,7 +82,7 @@ class ItemProduct extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              buildRating(prod['rating']),
+
               // Text(
               //   '${prod['rating']}',
               //   style: TextStyle(
@@ -109,6 +109,12 @@ class ItemProduct extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              buildRating(prod['rating']),
             ],
           ),
         ],

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
+import 'package:mosa_bin/components/custom_loading.dart';
 import 'package:mosa_bin/models/intro.dart';
 import 'package:mosa_bin/models/shared_pref.dart';
 import 'package:mosa_bin/models/user.dart';
 import 'package:mosa_bin/screens/login/pre_login.dart';
+import 'package:mosa_bin/services/service_init.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'style_intro.dart';
@@ -16,6 +18,8 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  final ServiceInit serv = ServiceInit();
   final List<Intro> introList = [
     Intro(
       image: 'assets/images/intro/intro1.png',
@@ -34,9 +38,12 @@ class _IntroPageState extends State<IntroPage> {
 
   Future onDonePress() async {
     SharedPreferencesHelper helper = SharedPreferencesHelper();
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    await serv.initData();
     await helper.setData(
       UserData(null, null, true),
     );
+    Navigator.of(context).pop();
     Navigator.pushReplacement(
       context,
       PageTransition(

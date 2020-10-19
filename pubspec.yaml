@@ -32,6 +32,8 @@ dependencies:
   barcode_scan: any
   google_maps_flutter:
   fluttertoast:
+  image_picker:
+  gallery_saver:
   # cloud_firestore:
   # firebase_auth:
   sqflite:
