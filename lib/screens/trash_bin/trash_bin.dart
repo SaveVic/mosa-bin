@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mosa_bin/components/bottom_navbar.dart';
 import 'package:mosa_bin/components/custom_button.dart';
+import 'package:mosa_bin/screens/trash_bin/alert_bottle.dart';
+import 'package:mosa_bin/services/service_account.dart';
 
 class TrashBinPage extends StatefulWidget {
   @override
@@ -22,8 +24,11 @@ class _TrashBinPageState extends State<TrashBinPage> {
     color: Colors.black,
     fontWeight: FontWeight.bold,
   );
+  ServiceAccount serv = ServiceAccount();
 
-  Stage _stage = Stage.Bottle;
+  Stage _stage = Stage.TrashBin;
+  String _codeTrashBin = '';
+  String _codeBottle = '';
 
   Future _onScanBottle(BuildContext ctx) async {
     var result = await BarcodeScanner.scan();
@@ -32,37 +37,29 @@ class _TrashBinPageState extends State<TrashBinPage> {
       Fluttertoast.showToast(msg: 'Gagal meng-scan botol');
       return;
     }
-    _showDialogBottleSuccess(ctx);
     setState(() {
-      _stage = Stage.TrashBin;
+      // _stage = Stage.TrashBin;
+      _codeBottle = res;
     });
+    bool t = await _showDialogBottle(ctx) ?? false;
+    if (!t)
+      Fluttertoast.showToast(msg: 'Coba lagi');
+    else {
+      _showDialogTrashSuccess(context);
+      setState(() {
+        _stage = Stage.TrashBin;
+      });
+    }
   }
 
-  void _showDialogBottleSuccess(BuildContext ctx) {
-    showDialog(
-      context: ctx,
-      child: AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Silahkan masukkan sampah botol\nmu ke dalam MOSA Smart Bin !',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.h),
-            Image.asset(
-              'assets/images/icon_akun/litter.png',
-              width: 100.w,
-            ),
-            // Icon(
-            //   Icons.check,
-            //   color: Color(0xFFADDB31),
-            //   size: 100.w,
-            // ),
-          ],
-        ),
-      ),
-    );
+  Future<bool> _showDialogBottle(BuildContext ctx) async {
+    bool t = await showDialog(
+          context: ctx,
+          barrierDismissible: false,
+          child: AlertWaitBottle(),
+        ) ??
+        false;
+    return t;
   }
 
   Future _onScanTrash(BuildContext ctx) async {
@@ -72,13 +69,19 @@ class _TrashBinPageState extends State<TrashBinPage> {
       Fluttertoast.showToast(msg: 'Gagal meng-scan trash bin');
       return;
     }
-    _showDialogTrashSuccess(ctx);
+    // _showDialogTrashSuccess(ctx);
     setState(() {
       _stage = Stage.Bottle;
+      _codeTrashBin = res;
     });
   }
 
   void _showDialogTrashSuccess(BuildContext ctx) {
+    print(_codeTrashBin);
+    print(_codeBottle);
+    int value = 50;
+    if (_codeBottle == '725272730') value = 80;
+    serv.addCash(value);
     showDialog(
       context: ctx,
       child: AlertDialog(

@@ -25,6 +25,13 @@ class ServiceAccount {
     await dbHelper.updateUser(user);
   }
 
+  Future<void> addCash(int value) async {
+    UserData user = await helper.getData();
+    UserDB temp = await dbHelper.findUser(user.username);
+    temp.cash += value;
+    await dbHelper.insertUser(temp);
+  }
+
   Future<void> logoutDatabase() async {
     await helper.setData(UserData(null, null, true));
   }
